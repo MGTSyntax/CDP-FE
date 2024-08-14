@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detachments Viewer</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Detachments</h1>
+    </header>
+    <main>
+        <div class="menu">
+            <div class="selection">
+                <label for="dbSelect">Select Database:</label>
+                <select id="dbSelect"></select>
+                <button id="fetchDB">View</button>
+            </div>
+            <div class="searching">
+                <label for="searchInput">Search:</label>
+                <input type="text" id="searchInput" placeholder="Search clients or detachments">
+            </div>
+        </div>
+
+        <table id="departmentsTable">
+            <thead>
+                <tr>
+                    <th>Client Code</th>
+                    <th>Client Name</th>
+                    <th>Detachment Code</th>
+                    <th>Detachment Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+            </tbody>
+        </table>
+
+        <div id="paginationControls" class="pagination-controls"></div>
+    </main>
+    <footer id="footer"></footer>
+    <script src="script.js"></script>
+    <script src="footer.js"></script>
+</body>
+</html>

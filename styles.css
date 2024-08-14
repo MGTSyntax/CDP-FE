@@ -1,0 +1,119 @@
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 0.9em;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+header {
+    background-color: #282c34;
+    color: white;
+    padding: 2px 0;
+    margin-bottom: 25px;
+}
+
+main {
+    flex: 1;
+}
+
+.menu {
+    width: 90vw;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+#dbSelect {
+    font-size: .8rem;
+    background-color: white;
+    width: 200px;
+}
+
+#fetchDB {
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    padding: 2px 20px;
+    cursor: pointer;
+    border-radius: 3px;
+    transition: background-color 0.3s ease;
+}
+
+#fetchDB:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+.selection {
+    text-align: start;
+}
+
+.searching #searchInput {
+    width: 200px;
+}
+
+table {
+    width: 90vw;
+    margin: 20px auto;
+    table-layout: fixed;
+    border-collapse: collapse;
+}
+
+th:nth-child(1), td:nth-child(1) {
+    width: 150px;
+}
+
+th:nth-child(3), td:nth-child(3) {
+    width: 150px;
+}
+
+th, td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+.pagination-button {
+    margin: 0 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    transition: background-color 0.3s ease;
+}
+
+.pagination-button:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+.pagination-button.active {
+    font-weight: bold;
+    background-color: #007bff;
+    color: white;
+}
+
+span {
+    margin: 0 5px;
+}
+
+#footer {
+    background-color: #f1f1f1;
+    padding: 10px;
+    margin-top: 20px;
+    color: #555;
+    border-top: 1px solid #ddd;
+}
+
+#footer p{
+    margin: 0;
+}
