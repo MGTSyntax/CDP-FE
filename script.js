@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let itemsPerPage = getItemsPerPage();
 
-    fetch('http://139.135.152.122:3100/databases')
+    fetch('http://localhost:3100/databases')
         .then(response => response.json())
         .then(databases => {
             databases.forEach(db => {
@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        fetch(`http://139.135.152.122:3100/departments?db=${selectedDb}`)
+        fetch(`http://localhost:3100/departments?db=${selectedDb}`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
