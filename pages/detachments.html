@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detachments Viewer</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>CDP - Detachment Masterlist</title>
+    <link rel="stylesheet" href="/assets/css/styles.css">
 </head>
 <body>
     <header>
-        <h1>Detachments</h1>
+        <h1>Detachment Masterlist</h1>
     </header>
+    <a class="navmenu" href="/pages/profile.html">Home</a>
     <main>
         <div class="menu">
             <div class="selection">
@@ -32,15 +33,15 @@
                     <th>Detachment Name</th>
                 </tr>
             </thead>
-            <tbody>
-                
-            </tbody>
+            <tbody></tbody>
         </table>
 
         <div id="paginationControls" class="pagination-controls"></div>
     </main>
     <footer id="footer"></footer>
-    <script src="script.js"></script>
-    <script src="footer.js"></script>
+    
+    <script type="module" src="/assets/js/api.js"></script>
+    <script type="module" src="/assets/js/script.js"></script>
+    <script src="/assets/js/footer.js"></script>
 </body>
 </html>

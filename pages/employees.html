@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CDP - Employee Masterlist</title>
+    <link rel="stylesheet" href="/assets/css/styles.css">
+</head>
+
+<body>
+    <header>
+        <h1>Employee Masterlist</h1>
+    </header>
+    <a class="navmenu" href="/pages/profile.html">Home</a>
+    <main>
+        <div class="menu">
+            <div class="selection">
+                <label for="dbSelectforEmp">Select Database:</label>
+                <select id="dbSelectforEmp"></select>
+                <button id="fetchDBforEmp">View</button>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-button" onclick="showTab(1)">Tab 1 - Basic Info</button>
+            <button class="tab-button" onclick="showTab(2)">Tab 1 - Personal Info</button>
+        </div>
+
+        <!-- Basic Information -->
+        <div id="tab1" class="tab-content">
+            
+            <h2>Basic Information</h2>
+            <table id="basicInfoTable">
+                <thead>
+                    <tr>Employee Number</tr>
+                    <tr>Last Name</tr>
+                    <tr>First Name</tr>
+                    <tr>Middle Name</tr>
+                    <tr>Ext. Name</tr>
+                    <tr>Email Addres</tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+
+            <h2>Job Information</h2>
+            <table id="jobInfoTable">
+                <thead>
+                    <tr>Division</tr>
+                    <tr>Department</tr>
+                    <tr>Detachment</tr>
+                    <tr>Position</tr>
+                    <tr>Job Status</tr>
+                    <tr>Date Hired</tr>
+                    <tr>Secu. Lic. Issuance Date</tr>
+                    <tr>Secu. Lic. Expiration Date</tr>
+                    <tr>Deactivation Date</tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+        <!-- Personal Information -->
+        <div id="tab2" class="tab-content">
+
+        </div>
+    </main>
+    <footer id="footer"></footer>
+    
+    <script type="module" src="/assets/js/api.js"></script>
+    <script type="module" src="/assets/js/script.js"></script>
+    <script src="/assets/js/footer.js"></script>
+</body>
+
+</html>

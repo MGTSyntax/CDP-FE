@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CDP - Login</title>
+    <link rel="stylesheet" href="/assets/css/styles.css">
+</head>
+
+<body>
+    <div class="login-container">
+        <h2>Login</h2>
+        <form id="loginForm">
+            <label for="database">Select Company:</label>
+            <select id="database" name="database" required></select>
+
+            <label for="username">Employee No.:</label>
+            <input type="text" id="username" name="username" placeholder="Enter Employee No." required>
+
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="Enter Password" required>
+
+            <button type="submit" id="loginBtn">Login</button>
+        </form>
+    </div>
+
+    <script type="module" src="/assets/js/api.js"></script>
+    <script type="module" src="/assets/js/auth.js"></script>
+    <script src="/assets/js/footer.js"></script>
+</body>
+
+</html>
