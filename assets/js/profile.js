@@ -10,12 +10,16 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
-    console.log("Stored user data:", userInfo);
-
-    if (userInfo && userInfo.firstName) {
-        welcomeMessage.textContent = `Hi ${userInfo.firstName}!`;
+    // if (userInfo.userLevel === 'admin') {
+    //     window.location.href = '/pages/employees.html';
+    // }
+    
+    if (userInfo && userInfo.firstName && userInfo.userLevel === 'admin') {
+        welcomeMessage.textContent = `Hi Admin ${userInfo.firstName}!`;
+    } else if (userInfo && userInfo.firstName && userInfo.userLevel === 'supervisor') {
+        welcomeMessage.textContent = `Hi Supervisor ${userInfo.firstName}!`;
     } else {
-        welcomeMessage.textContent = 'Dashboard';
+        welcomeMessage.textContent = `Hi User ${userInfo.firstName}!`;
     }
 });
 

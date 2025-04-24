@@ -45,6 +45,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                         empNo: userInfo.empNo,
                         firstName: userInfo.firstName,
                         lastName: userInfo.lastName,
+                        userLevel: result.userLevel
                     }));
 
                     alert('Login successful.');
