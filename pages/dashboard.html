@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CDP - Dashboard</title>
+    <link rel="stylesheet" href="/assets/css/styles.css">
+</head>
+<body>
+    <header>
+        <h1 id="welcomeMessage">Welcome to the Dashboard</h1>
+    </header>
+
+    <div class="navmenu">
+        <a href="/pages/profile.html">Profile</a>
+        <a href="/pages/employees.html">Employees</a>
+        <a href="/pages/detachments.html">Detachments</a>
+        <button id="logoutBtn">Logout</button>
+    </div>
+
+    <main>
+        <section class="dashboardMenu">
+            <div class="card">
+                <h2>Total Employees</h2>
+                <p id="totalEmployees">--</p>
+            </div>
+            <div class="card">
+                <h2>Total Detachments</h2>
+                <p id="totalDetachments">--</p>
+            </div>
+            <div class="card">
+                <h2>Pending Requests</h2>
+                <p id="pendingRequests">--</p>
+            </div>
+        </section>
+    </main>
+
+    <footer id="footer"></footer>
+
+    <script type="module" src="/assets/js/dashboard.js"></script>
+    <script src="/assets/js/footer.js"></script>
+</body>
+</html>

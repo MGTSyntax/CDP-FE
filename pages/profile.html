@@ -4,27 +4,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CDP - Dashboard</title>
+    <title>CDP - Profile</title>
     <link rel="stylesheet" href="/assets/css/styles.css">
 </head>
 
 <body>
     <header>
-        <h1 id="welcomeMessage"></h1>
+        <h1 id="welcomeMessage">Your Profile</h1>
     </header>
 
-    <div class="navmenu">
-        <a href="/pages/employees.html">Employees</a>
-        <a href="/pages/detachments.html">Detachments</a>
-        <button id="logoutBtn">Logout</button>
+    <div class="layout-container">
+        <div class="navmenu">
+            <a href="/pages/dashboard.html">Employees</a>
+            <a href="/pages/employees.html">Employees</a>
+            <a href="/pages/detachments.html">Detachments</a>
+            <button id="logoutBtn">Logout</button>
+        </div>
+
+        <main>
+            <section class="profile-card">
+                <h2>User Information</h2>
+                <p><strong>Employee No:</strong> <span id="empNo"></span></p>
+                <p><strong>Last Name:</strong> <span id="empNo"></span></p>
+                <p><strong>First Name:</strong> <span id="empNo"></span></p>
+                <p><strong>Middle Name:</strong> <span id="empNo"></span></p>
+            </section>
+        </main>
     </div>
-    <main></main>
 
     <footer id="footer"></footer>
 
     <script type="module" src="/assets/js/profile.js"></script>
     <script src="/assets/js/footer.js"></script>
-
 </body>
 
 </html>

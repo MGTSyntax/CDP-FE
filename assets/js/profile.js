@@ -9,10 +9,6 @@ document.addEventListener('DOMContentLoaded', () => {
         console.error("No user data found in local storage.");
         return;
     }
-
-    // if (userInfo.userLevel === 'admin') {
-    //     window.location.href = '/pages/employees.html';
-    // }
     
     if (userInfo && userInfo.firstName && userInfo.userLevel === 'admin') {
         welcomeMessage.textContent = `Hi Admin ${userInfo.firstName}!`;

@@ -7,7 +7,61 @@ body {
     font-size: 0.9em;
     margin: 0;
     padding: 0;
+}
+
+/* Main content */
+header {
+    background-color: #282c34;
+    color: white;
+    padding: 5px;
     text-align: center;
+    font-size: 18px;
+}
+
+.layout-container {
+    display: flex;
+    flex: 1;
+}
+
+/* Navigation bar */
+.navmenu {
+    width: 200px;
+    background-color: #f8f9fa;
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    text-align: left;
+    height: calc(100vh - 120px);
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.navmenu a,
+.navmenu button {
+    margin: 10px 0;
+    padding: 10px;
+    background: transparent;
+    border: none;
+    text-align: left;
+    font-size: 1em;
+    cursor: pointer;
+    color: #333;
+    text-decoration: none;
+}
+
+.navmenu a:hover,
+.navmenu button:hover {
+    background-color: #007bff;
+    color: white;
+    border-radius: 4px;
+}
+
+main {
+    flex: 1;
+    padding: 20px;
+}
+
+#welcomeMessage {
+    margin-bottom: 20px;
 }
 
 /* Login form */
@@ -56,22 +110,28 @@ body {
     background-color: #45a049;
 }
 
-/* Main content */
-header {
-    background-color: #282c34;
-    color: white;
-    padding: 10px 20px;
+.card, .profile-card {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    width: 250px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     text-align: center;
-    font-size: 18px;
 }
 
-/* Navigation bar */
-.navmenu {
-    margin-bottom: 25px;
+.dashboardMenu {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    margin-bottom: 30px;
 }
 
-main {
-    flex: 1;
+.profile-card {
+    margin: 20px auto;
+    width: 400px;
+    text-align: left;
 }
 
 /* Selection from Detachment and Employee List */
@@ -165,9 +225,12 @@ span {
 #footer {
     background-color: #f1f1f1;
     padding: 10px;
-    margin-top: 20px;
     color: #555;
     border-top: 1px solid #ddd;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
 }
 
 #footer p{

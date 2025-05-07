@@ -40,9 +40,13 @@ export async function loginUser(database, username, password) {
 export async function getUserInfo(db, empNo) {
     try {
         const response = await fetch(`${API_BASE_URL}/user-info?db=${db}&empNo=${empNo}`);
-        console.log("Fetching user info from:", response);
-        if (!response.ok) throw new Error('Failed to fetch user info');
-        return await response.json();
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.error || 'Unknown error');
+        }
+        return data;
     } catch (error) {
         console.error('Error fetching user info:', error);
         return null;

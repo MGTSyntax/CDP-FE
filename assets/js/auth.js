@@ -49,7 +49,11 @@ document.addEventListener('DOMContentLoaded', async () => {
                     }));
 
                     alert('Login successful.');
-                    window.location.href = '/pages/profile.html';
+                    if (result.userLevel === 'admin' || result.userLevel === 'supervisor') {
+                        window.location.href = '/pages/dashboard.html';
+                    } else {
+                        window.location.href = '/pages/profile.html';
+                    }
                 } else {
                     alert('Oh no!');
                 }
