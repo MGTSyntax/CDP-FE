@@ -40,15 +40,28 @@ export async function loginUser(database, username, password) {
 export async function getUserInfo(db, empNo) {
     try {
         const response = await fetch(`${API_BASE_URL}/user-info?db=${db}&empNo=${empNo}`);
-
         const data = await response.json();
-
         if (!response.ok) {
-            throw new Error(data.error || 'Unknown error');
+            throw new Error(data.error || 'Failed to fetch user info');
         }
         return data;
     } catch (error) {
         console.error('Error fetching user info:', error);
+        return null;
+    }
+}
+
+// Fetch complete employee profile by employee number
+export async function getEmployeeProfile(db, empNo) {
+    try {
+        const response = await fetch(`${API_BASE_URL}/employee-profile?db=${db}&empNo=${empNo}`);
+        const empProfdata = await response.json();
+        if (!response.ok) {
+            throw new Error(empProfdata.error || 'Failed to fetch employee profile');
+        }
+        return empProfdata;
+    } catch (error) {
+        console.error('Error fetching employee profile:', error);
         return null;
     }
 }
