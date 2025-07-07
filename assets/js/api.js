@@ -52,7 +52,7 @@ export async function getUserInfo(db, empNo) {
 }
 
 // Fetch complete employee profile by employee number
-export async function getEmployeeProfile(db, empNo) {
+export async function getEmpProfile(db, empNo) {
     try {
         const response = await fetch(`${API_BASE_URL}/employee-profile?db=${db}&empNo=${empNo}`);
         const empProfdata = await response.json();
