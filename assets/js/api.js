@@ -1,4 +1,4 @@
-// Centralized API Handling
+// api.js - Centralized API Handling
 
 const API_BASE_URL = 'http://localhost:3100';
 

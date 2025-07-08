@@ -1,9 +1,10 @@
-// profile.js - Loads user info and shows in the navbar
+// profile.js
+
+import { renderNav } from "./navbar.js";
 import { getEmpProfile } from "./api.js";
 
 document.addEventListener('DOMContentLoaded', () => {
     const welcomeMessage = document.querySelector('#welcomeMessage');
-    const navMenu = document.getElementById('navMenu');
     const userInfo = JSON.parse(localStorage.getItem('userInfo'));
 
     if (!userInfo) {
@@ -12,36 +13,12 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
+    // Render nav
+    renderNav(userInfo);
+
     // Set welcome message
     if (welcomeMessage) {
         welcomeMessage.textContent = `Hi ${userInfo.firstName}!`;
-    }
-
-    // Generate role-based nav
-    if (navMenu) {
-        let navHTML = `
-        <a href="/pages/profile.html">Profile</a>
-    `;
-
-        if (userInfo.userLevel === 'admin') {
-            navHTML = `
-                <a href="/pages/dashboard.html">Dashboard</a>
-                <a href="/pages/employees.html">Employees</a>
-                <a href="/pages/detachments.html">Detachments</a>
-            ` + navHTML;
-        }
-
-        navHTML += `<button id="logoutBtn">Logout</button>`;
-        navMenu.innerHTML = navHTML;
-
-        // Attach logout handler after nav built
-        const logoutBtn = document.getElementById('logoutBtn');
-        if (logoutBtn) {
-            logoutBtn.addEventListener('click', () => {
-                localStorage.removeItem('userInfo');
-                window.location.href = '/pages/login.html';
-            });
-        }
     }
 
     loadProfile();

@@ -1,4 +1,5 @@
-// auth.js - Handles login form logic
+// auth.js
+
 import { getDatabases, loginUser, getUserInfo } from './api.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -34,28 +35,35 @@ document.addEventListener('DOMContentLoaded', async () => {
         try {
             // Call API to Login User
             const result = await loginUser(database, username, password);
-            console.log("Login result:", result);
 
             if (result.success) {
-                console.log("Calling getUserInfo with:", database, result.empNo);
                 const userInfo = await getUserInfo(database, result.empNo);
                 if (userInfo) {
-                    localStorage.setItem('userInfo', JSON.stringify({
+                    const fullUserInfo = {
                         database,
                         empNo: userInfo.empNo,
                         firstName: userInfo.firstName,
                         lastName: userInfo.lastName,
                         userLevel: result.userLevel
-                    }));
+                    };
+
+                    localStorage.setItem('userInfo', JSON.stringify(fullUserInfo));
 
                     alert('Login successful.');
-                    if (result.userLevel === 'admin' || result.userLevel === 'supervisor') {
-                        window.location.href = '/pages/dashboard.html';
-                    } else {
-                        window.location.href = '/pages/profile.html';
-                    }
+
+                    const redirectMap = {
+                        superadmin: '/pages/dashboard.html',
+                        hr: '/pages/dashboard.html',
+                        payroll: '/pages/dashboard.html',
+                        adlogistics: '/pages/dashboard.html',
+                        finance: '/pages/dashboard.html',
+                        fieldpersonnel: '/pages/profile.html'
+                    };
+
+                    const redirectPage = redirectMap[result.userLevel] || '/pages/profile.html';
+                    window.location.href = redirectPage;
                 } else {
-                    alert('Oh no!');
+                    alert('Something went wrong loading user info.');
                 }
             } else {
                 alert('Invalid credentials. Please try again.');

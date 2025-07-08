@@ -1,3 +1,5 @@
+<!-- profile.html -->
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,21 +7,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CDP - Profile</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="/assets/css/styles.css">
 </head>
 
 <body>
     <header>
-        <h1 id="welcomeMessage">Your Profile</h1>
+        <h1 id="welcomeMessage"></h1>
     </header>
 
     <div class="layout-container">
-        <div class="navmenu" id="navMenu">
-            <!-- <a href="/pages/profile.html">Profile</a>
-            <a href="/pages/employees.html">Employees</a>
-            <a href="/pages/detachments.html">Detachments</a>
-            <button id="logoutBtn">Logout</button> -->
-        </div>
+        <div class="navmenu" id="navMenu"></div>
 
         <main>
             <section class="profile-card">
@@ -30,20 +29,6 @@
                 <p><strong>First Name:</strong> <span id="bi_firstName"></span></p>
                 <p><strong>Middle Name:</strong> <span id="bi_middleName"></span></p>
             </section>
-            <!-- <section class="profile-card">
-                <h2>Personal Information</h2>
-                <p><strong>Employee No:</strong> <span id="pi_empNo"></span></p>
-                <p><strong>Last Name:</strong> <span id=""></span></p>
-                <p><strong>First Name:</strong> <span id=""></span></p>
-                <p><strong>Middle Name:</strong> <span id=""></span></p>
-            </section>
-            <section class="profile-card">
-                <h2>Job Information</h2>
-                <p><strong>Employee No:</strong> <span id=""></span></p>
-                <p><strong>Last Name:</strong> <span id=""></span></p>
-                <p><strong>First Name:</strong> <span id=""></span></p>
-                <p><strong>Middle Name:</strong> <span id=""></span></p>
-            </section> -->
         </main>
     </div>
 
@@ -51,6 +36,9 @@
 
     <script type="module" src="/assets/js/profile.js"></script>
     <script src="/assets/js/footer.js"></script>
+    <script>
+        (function () { if (!window.chatbase || window.chatbase("getState") !== "initialized") { window.chatbase = (...arguments) => { if (!window.chatbase.q) { window.chatbase.q = [] } window.chatbase.q.push(arguments) }; window.chatbase = new Proxy(window.chatbase, { get(target, prop) { if (prop === "q") { return target.q } return (...args) => target(prop, ...args) } }) } const onLoad = function () { const script = document.createElement("script"); script.src = "https://www.chatbase.co/embed.min.js"; script.id = "FwkBlq1Gu5pojtB51jK5r"; script.domain = "www.chatbase.co"; document.body.appendChild(script) }; if (document.readyState === "complete") { onLoad() } else { window.addEventListener("load", onLoad) } })();
+    </script>
 </body>
 
 </html>

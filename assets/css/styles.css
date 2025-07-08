@@ -1,9 +1,10 @@
 /* styles.css */
+
 body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'Inter', Arial, sans-serif;
     font-size: 0.9em;
     margin: 0;
     padding: 0;
@@ -35,8 +36,7 @@ header {
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
 }
 
-.navmenu a,
-.navmenu button {
+.navmenu a {
     margin: 10px 0;
     padding: 10px;
     background: transparent;
@@ -48,11 +48,25 @@ header {
     text-decoration: none;
 }
 
-.navmenu a:hover,
-.navmenu button:hover {
+.navmenu a:hover {
     background-color: #007bff;
     color: white;
     border-radius: 4px;
+}
+
+.navmenu button {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    margin: 10px 0;
+    padding: 10px;
+    font-size: 1em;
+    cursor: pointer;
+}
+
+.navmenu button:hover {
+    background-color: #c82333;
 }
 
 main {
@@ -110,16 +124,6 @@ main {
     background-color: #45a049;
 }
 
-.card, .profile-card {
-    background-color: #ffffff;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    padding: 20px;
-    width: 250px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    text-align: center;
-}
-
 .dashboardMenu {
     display: flex;
     flex-wrap: wrap;
@@ -128,11 +132,76 @@ main {
     margin-bottom: 30px;
 }
 
+.card {
+    width: 250px;
+    text-align: center;
+}
+
+.card, .profile-card{
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    transition: box-shadow 0.3s ease;
+}
+
+/* profile-card */
 .profile-card {
-    margin: 20px auto;
-    width: 400px;
+    width: 100%;
+    max-width: 500px;
+    margin: 30px auto;
     text-align: left;
 }
+
+.profile-card:hover {
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+}
+
+.profile-card h2 {
+    margin-top: 0;
+    margin-bottom: 16px;
+    font-size: 20px;
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 6px;
+}
+
+.profile-card p {
+    margin: 8px 0;
+    font-size: 15px;
+}
+
+.profile-card strong {
+    color: #333;
+    display: inline-block;
+    width: 130px;
+}
+
+@media (max-width: 768px) {
+    .layout-container {
+        flex-direction: column;
+    }
+
+    .navmenu {
+        width: 100%;
+        height: auto;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-around;
+    }
+
+    .navmenu a,
+    .navmenu button {
+        width: auto;
+        padding: 10px 16px;
+    }
+
+    .profile-card {
+        width: 90%;
+    }
+}
+
+/* end of profile-card */
 
 /* Selection from Detachment and Employee List */
 .menu {
