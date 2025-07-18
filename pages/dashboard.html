@@ -14,50 +14,68 @@
 
 <body>
     <header class="main-header">
-        <div class="logo">CDP</div>
-        <div class="right-header">
-            <div class="datetime" id="datetime"></div>
-            <div class="avatar-menu">
-                <img src="/assets/images/profile-avatar.jpg" alt="avatar" class="avatar" id="avataBtn">
-                <div class="dropdown" id="avatarDropdown">
-                    <a href="/pages/profile.html"><i class="fa-solid fa-user"></i> Profile</a>
-                    <button id="logoutBtn"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+        <div class="content-wrapper header-inner">
+            <div class="logo">
+                <img src="/assets/images/mibLogo.png" alt="">
+            </div>
+            <div class="right-header">
+                <div class="datetime" id="datetime"></div>
+                <div class="avatar-menu">
+                    <img src="/assets/images/profile-avatar.jpg" alt="avatar" class="avatar" id="avataBtn">
+                    <div class="dropdown" id="avatarDropdown">
+                        <a href="/pages/profile.html"><i class="fa-solid fa-user"></i> Profile</a>
+                        <button id="logoutBtn"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+                    </div>
                 </div>
             </div>
         </div>
     </header>
 
-    <div class="navmenu" id="navMenu"></div>
+    <div class="navmenu">
+        <div class="content-wrapper">
+            <div id="navMenu"></div>
+        </div>
+    </div>
 
     <main class="dashboard-content">
-        <section class="top-profile">
-            <div class="top-profile-wrapper">
-                <img src="/assets/images/profile-avatar.jpg" alt="Avatar" class="profile-avatar">
-                <div class="profile-texts">
-                    <h2 id="bi_fullname">--</h2>
-                    <p>
-                        <i class="fa-solid fa-id-card"></i> ID Number <span id="bi_empNo">--</span> |
-                        <i class="fa-solid fa-briefcase"></i> <span id="ji_pos">--</span> |
-                        <i class="fa-solid fa-envelope"></i><span id="email_add">--</span></span>
-                    </p>
+        <div class="content-wrapper dashboard-container">
+            <section class="top-profile">
+                <div class="top-profile-design">
+                    <div class="greeting">
+                        <h2>Magandang araw Ka-MIB!</h2>
+                        <p>We are thrilled to present to you our Company Portal designed with you in mind.<br>Experience a
+                            seamless journey as you access your employee information and more.</p>
+                    </div>
+                    <img src="/assets/images/mibBanner.png" alt="Banner" class="banner-img">
                 </div>
-            </div>
-        </section>
+                <div class="top-profile-wrapper">
+                    <img src="/assets/images/profile-avatar.jpg" alt="Avatar" class="profile-avatar">
+                    <div class="profile-texts">
+                        <h2 id="bi_fullname">--</h2>
+                        <p>
+                            <i class="fa-solid fa-id-card"></i> ID Number <span id="bi_empNo">--</span> |
+                            <i class="fa-solid fa-briefcase"></i> <span id="ji_pos">--</span> |
+                            <i class="fa-solid fa-envelope"></i><span id="email_add">--</span></span>
+                        </p>
+                    </div>
+                </div>
+            </section>
 
-        <section class="dashboardMenu">
-            <div class="card">
-                <h2>Total Employees</h2>
-                <p id="totalEmployees">--</p>
-            </div>
-            <div class="card">
-                <h2>Total Detachments</h2>
-                <p id="totalDetachments">--</p>
-            </div>
-            <div class="card">
-                <h2>Pending Requests</h2>
-                <p id="pendingRequests">--</p>
-            </div>
-        </section>
+            <section class="dashboardMenu">
+                <div class="card">
+                    <h2>Total Employees</h2>
+                    <p id="totalEmployees">--</p>
+                </div>
+                <div class="card">
+                    <h2>Total Detachments</h2>
+                    <p id="totalDetachments">--</p>
+                </div>
+                <div class="card">
+                    <h2>Pending Requests</h2>
+                    <p id="pendingRequests">--</p>
+                </div>
+            </section>
+        </div>
     </main>
 
     <footer id="footer"></footer>
