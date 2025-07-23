@@ -10,59 +10,72 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="/assets/css/styles.css">
+    <link rel="stylesheet" href="/assets/css/profile.css">
 </head>
 
 <body>
-    <header>
-        <h1 id="welcomeMessage"></h1>
-    </header>
-
-    <div class="layout-container">
-        <div class="navmenu" id="navMenu"></div>
-
-        <main>
-            <section class="profile-card">
-                <h2 id="bi_fullname"></h2>
-                <p><i class="fa-solid fa-id-card"></i> ID Number <span id="bi_empNo"></span> | <i class="fa-solid fa-briefcase"></i> <span id="ji_pos"></span> | <i class="fa-solid fa-envelope"></i><span id="email_add"></span></span></p>
-            </section>
-            <section class="profile-card">
-                <h4><i class="fa-solid fa-id-badge"></i> My Personal Details</h4>
-                <p><strong>Nationality</strong> <span id="pi_nationality"></span></p>
-                <p><strong>Sex</strong> <span id="pi_sex"></span></p>
-                <p><strong>Civil Status</strong> <span id="pi_cstatus"></span></p>
-                <p><strong>Birthdate</strong> <span id="pi_dbirth"></span></p>
-                <p><strong>Religion</strong> <span id="pi_religion"></span></p>
-                <br>
-                <h4>Government Numbers</h4>
-                <p><strong>SSS No.</strong> <span id="pi_sssno"></span></p>
-                <p><strong>TIN</strong> <span id="pi_tin"></span></p>
-                <p><strong>PHIC No.</strong> <span id="pi_philhealth"></span></p>
-                <p><strong>Pagibig No.</strong> <span id="pi_pagibig"></span></p>
-                <br>
-                <h4>Job Details</h4>
-                <p><strong>Department</strong> <span id="ji_dept"></span></p>
-                <p><strong>Client</strong> <span id="ji_sec"></span></p>
-                <p><strong>Position</strong> <span id="ji_pos"></span></p>
-                <p><strong>Date Hired</strong> <span id="ji_dateHired"></span></p>
-                <p><strong>Job Status</strong> <span id="ji_jobStat"></span></p>
-            </section>
-            <section class="profile-card">
-                <h4><i class="fa-regular fa-id-badge"></i> Contacts</h4>
-                <p><strong>Contact No.</strong> <span id="pi_tel"></span></p>
-                <p><strong>Address</strong> <span id="pi_add"></span></p>
-                <br>
-
-            </section>
-        </main>
+    <div class="navmenu">
+        <div class="content-wrapper">
+            <div id="navMenu"></div>
+        </div>
     </div>
+
+    <main class="profile-content">
+        <div class="content-wrapper profile-container">
+            <section class="top-profile">
+                <div class="top-profile-design"></div>
+                <div class="top-profile-wrapper">
+                    <img src="/assets/images/profile-avatar.jpg" alt="Avatar" class="profile-avatar">
+                    <div class="profile-texts">
+                        <h2 id="bi_fullname">--</h2>
+                        <p>
+                            <i class="fa-solid fa-id-card"></i> ID Number <span id="bi_empNo">--</span> |
+                            <i class="fa-solid fa-briefcase"></i> <span id="ji_pos">--</span> |
+                            <i class="fa-solid fa-envelope"></i><span id="email_add">--</span></span>
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="profile-cards-row">
+                <div class="profile-card">
+                    <h4><i class="fa-solid fa-id-badge"></i> My Personal Details</h4>
+                    <p><strong>Nationality</strong> <span id="pi_nationality"></span></p>
+                    <p><strong>Sex</strong> <span id="pi_sex"></span></p>
+                    <p><strong>Civil Status</strong> <span id="pi_cstatus"></span></p>
+                    <p><strong>Birthdate</strong> <span id="pi_dbirth"></span></p>
+                    <p><strong>Religion</strong> <span id="pi_religion"></span></p>
+                    <br>
+                    <h4>Government Numbers</h4>
+                    <p><strong>SSS No.</strong> <span id="pi_sssno"></span></p>
+                    <p><strong>TIN</strong> <span id="pi_tin"></span></p>
+                    <p><strong>PHIC No.</strong> <span id="pi_philhealth"></span></p>
+                    <p><strong>Pagibig No.</strong> <span id="pi_pagibig"></span></p>
+                    <br>
+                    <h4>Job Details</h4>
+                    <p><strong>Department</strong> <span id="ji_dept"></span></p>
+                    <p><strong>Client</strong> <span id="ji_sec"></span></p>
+                    <p><strong>Position</strong> <span id="ji_pos"></span></p>
+                    <p><strong>Date Hired</strong> <span id="ji_dateHired"></span></p>
+                    <p><strong>Job Status</strong> <span id="ji_jobStat"></span></p>
+                </div>
+
+                <div class="profile-card">
+                    <h4><i class="fa-regular fa-id-badge"></i> Contacts</h4>
+                    <p><strong>Contact No.</strong> <span id="pi_tel"></span></p>
+                    <p><strong>Address</strong> <span id="pi_add"></span></p>
+                    <br>
+                </div>
+            </section>
+        </div>
+    </main>
 
     <footer id="footer"></footer>
 
+    <script type="module" src="/assets/js/statics/header.js"></script>
     <script type="module" src="/assets/js/profile.js"></script>
-    <script src="/assets/js/footer.js"></script>
-    <script>
-        (function () { if (!window.chatbase || window.chatbase("getState") !== "initialized") { window.chatbase = (...arguments) => { if (!window.chatbase.q) { window.chatbase.q = [] } window.chatbase.q.push(arguments) }; window.chatbase = new Proxy(window.chatbase, { get(target, prop) { if (prop === "q") { return target.q } return (...args) => target(prop, ...args) } }) } const onLoad = function () { const script = document.createElement("script"); script.src = "https://www.chatbase.co/embed.min.js"; script.id = "FwkBlq1Gu5pojtB51jK5r"; script.domain = "www.chatbase.co"; document.body.appendChild(script) }; if (document.readyState === "complete") { onLoad() } else { window.addEventListener("load", onLoad) } })();
-    </script>
+    <script type="module" src="/assets/js/statics/footer.js"></script>
+    <script id="FwkBlq1Gu5pojtB51jK5r" src="https://www.chatbase.co/embed.min.js"></script>
 </body>
 
 </html>

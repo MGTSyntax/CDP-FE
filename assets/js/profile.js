@@ -1,6 +1,6 @@
 // profile.js
 
-import { renderNav } from "./navbar.js";
+import { renderNav } from "./statics/navbar.js";
 import { getEmpProfile } from "./api.js";
 
 document.addEventListener('DOMContentLoaded', () => {

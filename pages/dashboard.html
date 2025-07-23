@@ -10,33 +10,16 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="/assets/css/styles.css">
+    <link rel="stylesheet" href="/assets/css/dashboard.css">
 </head>
 
 <body>
-    <header class="main-header">
-        <div class="content-wrapper header-inner">
-            <div class="logo">
-                <img src="/assets/images/mibLogo.png" alt="">
-            </div>
-            <div class="right-header">
-                <div class="datetime" id="datetime"></div>
-                <div class="avatar-menu">
-                    <img src="/assets/images/profile-avatar.jpg" alt="avatar" class="avatar" id="avataBtn">
-                    <div class="dropdown" id="avatarDropdown">
-                        <a href="/pages/profile.html"><i class="fa-solid fa-user"></i> Profile</a>
-                        <button id="logoutBtn"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
-
     <div class="navmenu">
         <div class="content-wrapper">
             <div id="navMenu"></div>
         </div>
     </div>
-
+    
     <main class="dashboard-content">
         <div class="content-wrapper dashboard-container">
             <section class="top-profile">
@@ -80,41 +63,10 @@
 
     <footer id="footer"></footer>
 
+    <script type="module" src="/assets/js/statics/header.js"></script>
     <script type="module" src="/assets/js/dashboard.js"></script>
-    <script src="/assets/js/footer.js"></script>
-    <script>
-        // Live Date and Time
-        setInterval(() => {
-            const now = new Date();
-            const options = {
-                weekday: 'long',
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-                hour: 'numeric',
-                minute: '2-digit',
-                hour12: true
-            };
-            document.getElementById('datetime').textContent = now.toLocaleString('en-US', options);
-        }, 1000);
-
-        // Avatar Dropdown
-        const avataBtn = document.getElementById('avatarBtn');
-        const dropdown = document.getElementById('avatarDropdown');
-        avataBtn?.addEventListener("click", () => {
-            dropdown.classList.toggle("show");
-        });
-
-        // Hide dropdown on outside click
-        window.addEventListener("click", (e) => {
-            if (!e.target.closest(".avatar-menu")) {
-                dropdown?.classList.remove("show");
-            }
-        });
-    </script>
-    <script>
-        (function () { if (!window.chatbase || window.chatbase("getState") !== "initialized") { window.chatbase = (...arguments) => { if (!window.chatbase.q) { window.chatbase.q = [] } window.chatbase.q.push(arguments) }; window.chatbase = new Proxy(window.chatbase, { get(target, prop) { if (prop === "q") { return target.q } return (...args) => target(prop, ...args) } }) } const onLoad = function () { const script = document.createElement("script"); script.src = "https://www.chatbase.co/embed.min.js"; script.id = "FwkBlq1Gu5pojtB51jK5r"; script.domain = "www.chatbase.co"; document.body.appendChild(script) }; if (document.readyState === "complete") { onLoad() } else { window.addEventListener("load", onLoad) } })();
-    </script>
+    <script type="module" src="/assets/js/statics/footer.js"></script>
+    <script id="FwkBlq1Gu5pojtB51jK5r" src="https://www.chatbase.co/embed.min.js"></script>
 </body>
 
 </html>
