@@ -5,7 +5,7 @@ export function renderNav(userInfo, containerId = 'navMenu') {
     if (!userInfo || !navMenu) return;
 
     const navConfig = {
-        superadmin: ["dashboard", "profile", "employees", "detachments"],
+        superadmin: ["dashboard", "profile", "viewables", "employees", "detachments"],
         hr: ["dashboard", "profile", "employees", "detachments"],
         payroll: ["dashboard", "profile", "employees", "detachments"],
         adlogistics: ["dashboard", "profile"],
@@ -15,9 +15,23 @@ export function renderNav(userInfo, containerId = 'navMenu') {
 
     const linkMap = {
         dashboard: `<a href="/pages/dashboard.html"><i class="fa-solid fa-square-poll-horizontal"></i> Dashboard</a>`,
-        profile: `<a href="/pages/profile.html"><i class="fa fa-user"></i> Profile</a>`,
-        employees: `<a href="/pages/employees.html">Employees</a>`,
-        detachments: `<a href="/pages/detachments.html">Detachments</a>`
+        profile: `
+            <div class="dropdown">
+                <span class="dropbtn"><i class="fa fa-user"></i> Employee Information <i class="fa fa-caret-down"></i></span>
+                <div class="dropdown-content">
+                    <a href="/pages/profile.html">Employee Profile</a>
+                </div>
+            </div>
+            `,
+        viewables: `
+            <div class="dropdown">
+                <button class="dropbtn"><i class="fa-solid fa-address-book"></i> Viewables <i class="fa fa-caret-down"></i></button>
+                <div class="dropdown-content">
+                    <a href="/pages/employees.html">Employees</a>
+                    <a href="/pages/detachments.html">Detachments</a>
+                </div>
+            </div>
+            `
     };
 
     const userLinks = navConfig[userInfo.userLevel] || [];
@@ -26,11 +40,41 @@ export function renderNav(userInfo, containerId = 'navMenu') {
 
     navMenu.innerHTML = navHtml;
 
+    // Logout Handler
     const logoutBtn = document.getElementById('logoutBtn');
     if (logoutBtn) {
         logoutBtn.addEventListener('click', () => {
             localStorage.removeItem('userInfo');
             window.location.href = '/pages/login.html';
         });
+    }
+
+    // Inject Breadcrumb
+    const currentPage = location.pathname.split('/').pop();
+
+    const breadcrumbMap = {
+        'profile.html': ['Employee Information', 'Employee Profile'],
+        'employees.html': ['Viewables', 'Employees'],
+        'detachments.html': ['Viewables', 'Detachments']
+    };
+
+    const crumbList = breadcrumbMap[currentPage];
+    if (crumbList) {
+        const breadcrumbContainer = document.createElement('nav');
+        breadcrumbContainer.className = 'breadcrumb';
+        breadcrumbContainer.innerHTML = `
+            <div class="content-wrapper">
+                <ul>
+                    ${crumbList.map((label, idx) => {
+                        if (idx === 0) {
+                            return `<li><a href="/pages/dashboard.html"> ${label}</a></li>`;
+                        } else {
+                            return `<li>${label}</li>`;
+                        }
+                    }).join('')}
+                </ul>
+            </div>
+        `;
+        document.querySelector('.navmenu').insertAdjacentElement('afterend', breadcrumbContainer);
     }
 }

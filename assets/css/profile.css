@@ -2,21 +2,22 @@
     display: flex;
     flex-direction: column;
     gap: 2rem;
-    padding: 2rem 0;
+    padding-bottom: 2rem;
 }
 
 .top-profile {
     background-color: #ffffff;
-    border-radius: 5px;
+    border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     padding: 0;
     width: 100%;
     font-size: 0.95rem;
     transition: box-shadow 0.3s ease;
+    overflow: hidden;
 }
 
 .top-profile-design {
-    min-height: 100px;
+    min-height: 110px;
     background: linear-gradient(135deg, #3577b9, #9cbce0);
 }
 
@@ -55,41 +56,80 @@
 }
 
 /* PROFILE PAGE */
-.profile-cards-row {
+.profile-columns {
     display: flex;
     flex-wrap: wrap;
-    gap: 2rem;
+    gap: 1.2rem;
+    justify-content: space-between;
     width: 100%;
 }
 
+.profile-left {
+    flex: 1 1 40%;
+    min-width: 280px;
+}
+
+.profile-right {
+    flex: 1 1 55%;
+    min-width: 300px;
+}
+
 .profile-card {
-    flex: 1 1 48%;
+    width: 100%;
+    margin: 0 auto;
+    text-align: left;
     padding: 1rem 2rem;
     background-color: #fff;
-    border-radius: 5px;
+    border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
     transition: box-shadow 0.3s ease;
 }
 
-.profile-card:hover {
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-}
-
 .profile-card h4 {
-    font-size: 1.1rem;
+    display: inline-block;
+    font-size: 1rem;
     padding: 8px 12px;
-    border-left: 4px solid #007bff;
+    border-left: 1px solid #007bff;
     background-color: #e6f3ff;
+    text-align: start;
+    
 }
 
 .profile-card p {
     margin: 8px 0;
     font-size: 0.95rem;
     line-height: 1.5;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.05);
+    padding-bottom: 4px;
 }
 
 .profile-card strong {
     color: #333;
     display: inline-block;
     width: 130px;
+    flex-shrink: 0;
+}
+
+.profile-card span {
+    flex: 1;
+    min-width: 0;
+    word-wrap: break-word;
+}
+
+.profile-card .address-line {
+    align-items: flex-start;
+}
+
+@media (max-width: 768px) {
+    .profile-cards-row {
+        flex-direction: column;
+    }
+
+    .profile-card {
+        width: 100%;
+    }
 }

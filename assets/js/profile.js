@@ -4,7 +4,6 @@ import { renderNav } from "./statics/navbar.js";
 import { getEmpProfile } from "./api.js";
 
 document.addEventListener('DOMContentLoaded', () => {
-    const welcomeMessage = document.querySelector('#welcomeMessage');
     const userInfo = JSON.parse(localStorage.getItem('userInfo'));
 
     if (!userInfo) {
@@ -15,11 +14,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Render nav
     renderNav(userInfo);
-
-    // Set welcome message
-    if (welcomeMessage) {
-        welcomeMessage.textContent = `Hi ${userInfo.firstName}!`;
-    }
 
     loadProfile();
 });
