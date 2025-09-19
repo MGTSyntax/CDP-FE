@@ -5,7 +5,7 @@ export function renderNav(userInfo, containerId = 'navMenu') {
     if (!userInfo || !navMenu) return;
 
     const navConfig = {
-        superadmin: ["dashboard", "profile", "viewables", "employees", "detachments"],
+        superadmin: ["dashboard", "profile", "viewables", "employees", "detachments", "documents"],
         hr: ["dashboard", "profile", "employees", "detachments"],
         payroll: ["dashboard", "profile", "employees", "detachments"],
         adlogistics: ["dashboard", "profile"],
@@ -17,21 +17,22 @@ export function renderNav(userInfo, containerId = 'navMenu') {
         dashboard: `<a href="/pages/dashboard.html"><i class="fa-solid fa-square-poll-horizontal"></i> Dashboard</a>`,
         profile: `
             <div class="dropdown">
-                <span class="dropbtn"><i class="fa fa-user"></i> Employee Information <i class="fa fa-caret-down"></i></span>
+                <span class="dropbtn"><i class="fa fa-user"></i> Employee Details <i class="fa fa-caret-down"></i></span>
                 <div class="dropdown-content">
-                    <a href="/pages/profile.html">Employee Profile</a>
+                    <a href="/pages/profile.html"><i class="fa fa-user"></i> Employee Profile</a>
                 </div>
             </div>
             `,
         viewables: `
             <div class="dropdown">
-                <button class="dropbtn"><i class="fa-solid fa-address-book"></i> Viewables <i class="fa fa-caret-down"></i></button>
+                <button class="dropbtn"><i class="fa-solid fa-address-book"></i> Viewable Lists <i class="fa fa-caret-down"></i></button>
                 <div class="dropdown-content">
-                    <a href="/pages/employees.html">Employees</a>
-                    <a href="/pages/detachments.html">Detachments</a>
+                    <a href="/pages/employees.html">Employee List</a>
+                    <a href="/pages/detachments.html">Detachment List</a>
                 </div>
             </div>
-            `
+            `,
+        documents: `<a href="/pages/documents.html"><i class="fa-solid fa-address-book"></i> Policies</a>`
     };
 
     const userLinks = navConfig[userInfo.userLevel] || [];
@@ -53,7 +54,7 @@ export function renderNav(userInfo, containerId = 'navMenu') {
     const currentPage = location.pathname.split('/').pop();
 
     const breadcrumbMap = {
-        'profile.html': ['Employee Information', 'Employee Profile'],
+        'profile.html': ['Employee Details', 'Employee Profile'],
         'employees.html': ['Viewables', 'Employees'],
         'detachments.html': ['Viewables', 'Detachments']
     };
@@ -67,7 +68,7 @@ export function renderNav(userInfo, containerId = 'navMenu') {
                 <ul>
                     ${crumbList.map((label, idx) => {
                         if (idx === 0) {
-                            return `<li><a href="/pages/dashboard.html"> ${label}</a></li>`;
+                            return `<li><a href="/pages/dashboard.html">${label}</a></li>`;
                         } else {
                             return `<li>${label}</li>`;
                         }

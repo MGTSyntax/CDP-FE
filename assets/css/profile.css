@@ -87,11 +87,12 @@
 
 .profile-card h4 {
     display: inline-block;
-    font-size: 1rem;
+    font-size: 0.9rem;
     padding: 8px 12px;
-    border-left: 1px solid #007bff;
+    border-left: 2px solid #007bff;
     background-color: #e6f3ff;
     text-align: start;
+    border-radius: 2px;
     
 }
 

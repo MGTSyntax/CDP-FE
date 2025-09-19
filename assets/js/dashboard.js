@@ -1,4 +1,4 @@
-// dashboard.js
+// /assets/js/dashboard.js
 
 import { renderNav } from "./statics/navbar.js";
 import { getEmpProfile } from "./api.js";

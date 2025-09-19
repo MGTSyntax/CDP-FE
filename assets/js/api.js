@@ -1,6 +1,6 @@
-// api.js - Centralized API Handling
+// /assets/js/api.js - Centralized API Handling
 
-const API_BASE_URL = 'http://localhost:3100';
+export const API_BASE_URL = 'http://localhost:3100';
 
 // Fetch Databases
 export async function getDatabases() {
@@ -100,4 +100,58 @@ export async function logout() {
     } catch (error) {
         console.error('Logout failed:', error);
     }
+}
+
+// =========================
+// Documents API
+// =========================
+
+// Get documents
+export async function getDocuments(department, db) {
+    const response = await fetch(`${API_BASE_URL}/documents/${department}?db=${db}`);
+    if (!response.ok) {
+        throw new Error("Failed to fetch documents");
+    }
+    return await response.json();
+}
+
+// Upload document
+export async function uploadDocument(department, file, db) {
+    const userInfo = JSON.parse(localStorage.getItem("userInfo")) || {};
+    const formData = new FormData();
+    formData.append("document", file);
+    formData.append("uploadedBy", userInfo.empNo);
+    formData.append("dbName", userInfo.database);
+
+    const response = await fetch(
+        `${API_BASE_URL}/upload?department=${department}&db=${db}`,
+        {
+            method: "POST",
+            body: formData,
+        }
+    );
+
+    const data = await response.json();
+    if (!response.ok) {
+        throw new Error(data.error || 'Upload failed');
+    }
+
+    return data;
+}
+
+// Delete document
+export async function deleteDocument(department, filename, db) {
+    const response = await fetch(
+        `${API_BASE_URL}/uploads/${department}/${filename}?db=${db}`,
+        {
+            method: "DELETE",
+        }
+    );
+
+    const data = await response.json();
+    if (!response.ok) {
+        throw new Error(data.error || 'Delete failed');
+    }
+
+    return data;
 }

@@ -1,3 +1,4 @@
+// /assets/js/script.js
 import { getDatabases, getDepartments, getEmployees } from './api.js';
 
 document.addEventListener('DOMContentLoaded', async () => {

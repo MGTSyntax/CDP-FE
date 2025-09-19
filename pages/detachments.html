@@ -1,3 +1,4 @@
+<!-- /pages/detachments.html -->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,56 +6,54 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CDP - Detachment Masterlist</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="/assets/css/styles.css">
+    <link rel="stylesheet" href="/assets/css/liststyles.css">
 </head>
 
 <body>
-    <header>
-        <h1>Detachment Masterlist</h1>
-    </header>
-    <div class="layout-container">
-        <div class="layout-container">
-            <div class="navmenu" id="navMenu">
-                <a href="/pages/profile.html">Profile</a>
-                <a href="/pages/employees.html">Employees</a>
-                <a href="/pages/detachments.html">Detachments</a>
-                <button id="logoutBtn">Logout</button>
-            </div>
-            <main>
-                <div class="menu">
-                    <div class="selection">
-                        <label for="dbSelect">Select Database:</label>
-                        <select id="dbSelect"></select>
-                        <button id="fetchDB">View</button>
-                    </div>
-                    <div class="searching">
-                        <label for="searchInput">Search:</label>
-                        <input type="text" id="searchInput" placeholder="Search clients or detachments">
-                    </div>
-                </div>
-
-                <table id="departmentsTable">
-                    <thead>
-                        <tr>
-                            <th>Client Code</th>
-                            <th>Client Name</th>
-                            <th>Detachment Code</th>
-                            <th>Detachment Name</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
-
-                <div id="paginationControls" class="pagination-controls"></div>
-            </main>
+    <div class="navmenu">
+        <div class="content-wrapper">
+            <div id="navMenu"></div>
         </div>
     </div>
 
+    <main>
+        <div class="menu">
+            <div class="selection">
+                <label for="dbSelect">Select Database:</label>
+                <select id="dbSelect"></select>
+                <button id="fetchDB">View</button>
+            </div>
+            <div class="searching">
+                <label for="searchInput">Search:</label>
+                <input type="text" id="searchInput" placeholder="Search clients or detachments">
+            </div>
+        </div>
+
+        <table id="departmentsTable">
+            <thead>
+                <tr>
+                    <th>Client Code</th>
+                    <th>Client Name</th>
+                    <th>Detachment Code</th>
+                    <th>Detachment Name</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+
+        <div id="paginationControls" class="pagination-controls"></div>
+    </main>
+
     <footer id="footer"></footer>
 
+    <script type="module" src="/assets/js/statics/header.js"></script>
     <script type="module" src="/assets/js/api.js"></script>
     <script type="module" src="/assets/js/script.js"></script>
-    <script src="/assets/js/footer.js"></script>
+    <script type="module" src="/assets/js/statics/footer.js"></script>
+    <script id="FwkBlq1Gu5pojtB51jK5r" src="https://www.chatbase.co/embed.min.js"></script>
 </body>
 
 </html>

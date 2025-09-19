@@ -1,0 +1,62 @@
+<!-- /pages/documents.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CDP - Documents</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    <link rel="stylesheet" href="/assets/css/documents.css">
+    <link rel="icon" href="data:,">
+</head>
+
+<body>
+    <div class="navmenu">
+        <div class="content-wrapper">
+            <div id="navMenu"></div>
+        </div>
+    </div>
+
+    <main class="documents-page">
+
+        <div class="documents-container">
+            <aside class="side-bar">
+                <h3>Departments</h3>
+                <ul class="department-list">
+                    <li data-dept="AnL" class="active">A&L</li>
+                    <li data-dept="Finance">Finance</li>
+                    <li data-dept="HR">HR</li>
+                    <li data-dept="IT">IT</li>
+                    <li data-dept="Legal">Legal</li>
+                    <li data-dept="Operations">Operations</li>
+                </ul>
+            </aside>
+        </div>
+
+        <section class="documents-section">
+            <h2>Documents</h2>
+            <div class="documents-breadcrumb">AnL > 2025</div>
+
+            <div id="document-list" class="document-list">
+                <p class="no-docs">No documents uploaded yet</p>
+            </div>
+
+            <div class="upload-box">
+                <button id="uploadBtn">Upload Document</button>
+                <input type="file" id="docsUpload" hidden>
+            </div>
+        </section>
+    </main>
+
+    <footer id="footer"></footer>
+
+    <script type="module" src="/assets/js/statics/header.js"></script>
+    <script type="module" src="/assets/js/documents.js"></script>
+    <script type="module" src="/assets/js/statics/footer.js"></script>
+    <script id="FwkBlq1Gu5pojtB51jK5r" src="https://www.chatbase.co/embed.min.js"></script>
+</body>
+
+</html>

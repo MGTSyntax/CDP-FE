@@ -1,5 +1,4 @@
-// auth.js
-
+// /assets/js/auth.js
 import { getDatabases, loginUser, getUserInfo } from './api.js';
 
 document.addEventListener('DOMContentLoaded', async () => {

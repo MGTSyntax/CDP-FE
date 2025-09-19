@@ -1,5 +1,4 @@
-// profile.js
-
+// /assets/js/profile.js
 import { renderNav } from "./statics/navbar.js";
 import { getEmpProfile } from "./api.js";
 
