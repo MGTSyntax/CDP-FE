@@ -11,6 +11,20 @@ const uploadBtn = document.getElementById("uploadBtn");
 const docsUpload = document.getElementById("docsUpload");
 const breadcrumb = document.querySelector(".documents-breadcrumb");
 
+const deletePermissions = {
+    ANL: ["anlmanager", "superadmin"],
+    FINANCE: ["finmanager", "superadmin"],
+    HR: ["hrmanager", "superadmin"],
+    IT: ["itmanager", "superadmin"],
+    LEGAL: ["legmanager", "superadmin"],
+    OPERATIONS: ["opsmanager", "superadmin"]
+}
+
+const modal = document.getElementById("docModal");
+const closeBtn = document.querySelector(".close-modal");
+
+const userInfo = JSON.parse(localStorage.getItem("userInfo")) || {};
+
 function getFileIcon(filename) {
     const ext = filename.split('.').pop().toLowerCase();
     switch (ext) {
@@ -30,12 +44,33 @@ function getFileIcon(filename) {
     }
 }
 
+// Open modal
+function openModal(doc) {
+    const modalBody = modal.querySelector(".modal-body");
+    modalBody.innerHTML = getPreviewHTML(doc);
+    modal.classList.add("show");
+}
+
+// Close modal
+closeBtn.onclick = () => {
+    modal.classList.remove("show");
+};
+
+modal.addEventListener("click", (e) => {
+    if (e.target === modal) {
+        modal.classList.remove("show");
+    }
+});
+
+// Modify renderDocuments to open modal on click
 function renderDocuments() {
     documentList.innerHTML = "";
     if (!documents || documents.length === 0) {
         documentList.innerHTML = `<p class="no-docs">No documents available for ${activeDepartment}</p>`;
         return;
     }
+
+    const allowedRoles = (deletePermissions[activeDepartment.toUpperCase()] || []).map(r => r.toLowerCase());
 
     documents.forEach((doc) => {
         const div = document.createElement("div");
@@ -44,49 +79,44 @@ function renderDocuments() {
             <div class="doc-header">
                 <div class="file-info">
                     ${getFileIcon(doc.filename)}
-                    <span>${doc.filename}</span>
+                    <span class="filename">${doc.filename}</span>
                 </div>
                 <div class="actions">
-                    <button class="toggle-preview">
-                        <i class="fa-solid fa-chevron-down"></i>
+                    <button class="preview-btn" aria-label="Preview Document">
+                        <i class="fa-solid fa-eye"></i>
                     </button>
-                    <button class="delete-btn" data-file="${doc.filename}">Delete</button>
+                    ${allowedRoles.includes(userInfo.userLevel?.toLowerCase())
+                ? `<button class="delete-btn" data-file="${doc.filename}">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>` : ""
+            }
                 </div>
             </div>
-            <div class="doc-preview"></div>
         `;
         documentList.appendChild(div);
 
-        // Toggle preview
-        const toggleBtn = div.querySelector(".toggle-preview");
-        const previewBox = div.querySelector(".doc-preview");
-
-        toggleBtn.addEventListener("click", () => {
-            if (!previewBox.classList.contains("open")) {
-                previewBox.innerHTML = getPreviewHTML(doc);
-                previewBox.classList.add("open");
-                toggleBtn.innerHTML = `<i class="fa-solid fa-chevron-up"></i>`;
-            } else {
-                previewBox.classList.remove("open");
-                setTimeout(() => {
-                    previewBox.innerHTML = "";
-                }, 300);
-                toggleBtn.innerHTML = `<i class="fa-solid fa-chevron-down"></i>`;
-            }
+        // View handler
+        div.querySelector(".preview-btn").addEventListener("click", () => {
+            openModal(doc)
         });
 
-        // Delete handler
+        // Delete button (only if present)
         const deleteBtn = div.querySelector(".delete-btn");
-        deleteBtn.addEventListener("click", async () => {
-            const filename = deleteBtn.dataset.file;
-            try {
-                await deleteDocument(activeDepartment, filename, selectedDb);
-                documents = documents.filter((d) => d.filename !== filename);
-                renderDocuments();
-            } catch (err) {
-                alert("Failed to delete file: " + err.message);
-            }
-        });
+        if (deleteBtn) {
+            deleteBtn.addEventListener("click", async () => {
+                const filename = deleteBtn.dataset.file;
+                if (!confirm(`Are you sure you want to delete ${filename}?`)) return;
+
+                try {
+                    await deleteDocument(activeDepartment, filename, selectedDb);
+                    div.remove();
+                    documents = documents.filter((d) => d.filename !== filename);
+                    renderDocuments();
+                } catch (err) {
+                    alert("Failed to delete file: " + err.message);
+                }
+            });
+        }
     });
 }
 
@@ -97,7 +127,7 @@ function getPreviewHTML(doc) {
     if (["pdf"].includes(ext)) {
         return `<iframe src="${fileUrl}" width="100%" height="600px"></iframe>`;
     }
-    if (["png","jpg","jpeg","gif"].includes(ext)) {
+    if (["png","jpg","jpeg"].includes(ext)) {
         return `<img src="${fileUrl}" alt="${doc.filename}" style="max-width:100%; border-radius:6px;">`;
     }
     if (["txt"].includes(ext)) {

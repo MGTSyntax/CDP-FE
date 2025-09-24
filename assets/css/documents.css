@@ -2,7 +2,7 @@
 .documents-page {
     display: flex;
     gap: 20px;
-    padding: 20px;
+    padding-bottom: 2rem;
     flex-wrap: wrap;
 }
 
@@ -128,6 +128,14 @@
     font-size: 1.2rem;
 }
 
+.filename {
+    max-width: 500px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: inline-block;
+}
+
 /* Filename */
 .document-item span {
     font-size: 0.95rem;
@@ -142,7 +150,6 @@
     gap: 8px;
 }
 
-.document-item .actions a,
 .document-item .actions button {
     font-size: 0.9rem;
     padding: 5px;
@@ -150,28 +157,13 @@
     border: none;
     cursor: pointer;
     transition: background 0.2s ease, color 0.2s ease;
-}
-
-/* View button */
-.document-item .actions a {
-    background-color: #007bff;
-    color: white;
-}
-
-.document-item .actions a:hover {
-    background: #0056b3;
-}
-
-/* Delete button */
-.document-item .actions button {
     background: none;
     color: #555;
-    transition: color 0.2s;
 }
 
 .document-item .actions button:hover {
-    background: #ffdddd;
-    color: #d00;
+    background: #007bff;
+    color: white;
 }
 
 /* Upload Box */
@@ -182,7 +174,7 @@
     text-align: center;
     background: #f9fcff;
     cursor: pointer;
-    transition: backgroun 0.2s ease;
+    transition: background 0.2s ease;
 }
 
 .upload-box:hover {
@@ -202,6 +194,47 @@
 
 .upload-box button:hover {
     background: #0056b3;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal.show {
+    display: flex;
+}
+
+.modal-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 90%;
+    max-height: 90%;
+    overflow: auto;
+    position: relative;
+}
+
+.close-modal {
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #333;
+}
+
+.modal-body {
+    margin-top: 10px;
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 /* Responsive */

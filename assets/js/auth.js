@@ -52,10 +52,18 @@ document.addEventListener('DOMContentLoaded', async () => {
 
                     const redirectMap = {
                         superadmin: '/pages/dashboard.html',
-                        hr: '/pages/dashboard.html',
-                        payroll: '/pages/dashboard.html',
-                        adlogistics: '/pages/dashboard.html',
-                        finance: '/pages/dashboard.html',
+                        anlstaff: '/pages/dashboard.html',
+                        anlmanager: '/pages/dashboard.html',
+                        finstaff: '/pages/dashboard.html',
+                        finmanager: '/pages/dashboard.html',
+                        hrstaff: '/pages/dashboard.html',
+                        hrmanager: '/pages/dashboard.html',
+                        itstaff: '/pages/dashboard.html',
+                        itmanager: '/pages/dashboard.html',
+                        legstaff: '/pages/dashboard.html',
+                        legmanager: '/pages/dashboard.html',
+                        opsstaff: '/pages/dashboard.html',
+                        opsmanager: '/pages/dashboard.html',
                         fieldpersonnel: '/pages/profile.html'
                     };
 

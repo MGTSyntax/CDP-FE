@@ -1,15 +1,22 @@
-// navbar.js
-
+// /assets/js/statics/navbar.js
 export function renderNav(userInfo, containerId = 'navMenu') {
     const navMenu = document.getElementById(containerId);
     if (!userInfo || !navMenu) return;
 
     const navConfig = {
         superadmin: ["dashboard", "profile", "viewables", "employees", "detachments", "documents"],
-        hr: ["dashboard", "profile", "employees", "detachments"],
-        payroll: ["dashboard", "profile", "employees", "detachments"],
-        adlogistics: ["dashboard", "profile"],
-        finance: ["dashboard", "profile", "detachments"],
+        anlstaff: ["dashboard", "profile", "documents"],
+        anlmanager: ["dashboard", "profile", "documents"],
+        finstaff: ["dashboard", "profile", "viewables", "detachments"],
+        finmanager: ["dashboard", "profile", "viewables", "employees", "detachments", "documents"],
+        hrstaff: ["dashboard", "profile", "viewables", "employees", "detachments", "documents"],
+        hrmanager: ["dashboard", "profile", "viewables", "employees", "detachments", "documents"],
+        itsfaff: ["dashboard", "profile", "viewables", "detachments", "documents"],
+        itmanager: ["dashboard", "profile", "viewables", "detachments", "documents"],
+        legstaff: ["dashboard", "profile", "documents"],
+        legmanager: ["dashboard", "profile", "documents"],
+        opsstaff: ["dashboard", "profile", "documents"],
+        opsmanager: ["dashboard", "profile", "documents"],
         fieldpersonnel: ["dashboard", "profile"],
     };
 
@@ -54,9 +61,11 @@ export function renderNav(userInfo, containerId = 'navMenu') {
     const currentPage = location.pathname.split('/').pop();
 
     const breadcrumbMap = {
+        'dashboard.html': ['Dashboard', ''],
         'profile.html': ['Employee Details', 'Employee Profile'],
         'employees.html': ['Viewables', 'Employees'],
-        'detachments.html': ['Viewables', 'Detachments']
+        'detachments.html': ['Viewables', 'Detachments'],
+        'documents.html': ['Policies', ''],
     };
 
     const crumbList = breadcrumbMap[currentPage];
