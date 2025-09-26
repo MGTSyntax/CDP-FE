@@ -22,6 +22,8 @@ const deletePermissions = {
 
 const modal = document.getElementById("docModal");
 const closeBtn = document.querySelector(".close-modal");
+const openNewTabBtn = document.querySelector(".open-newtab-btn");
+let currentFileUrl = null;
 
 const userInfo = JSON.parse(localStorage.getItem("userInfo")) || {};
 
@@ -47,9 +49,16 @@ function getFileIcon(filename) {
 // Open modal
 function openModal(doc) {
     const modalBody = modal.querySelector(".modal-body");
+    currentFileUrl = `${API_BASE_URL}${doc.path}`;
     modalBody.innerHTML = getPreviewHTML(doc);
     modal.classList.add("show");
 }
+
+openNewTabBtn.onclick = () => {
+    if (currentFileUrl) {
+        window.open(currentFileUrl, "_blank");
+    }
+};
 
 // Close modal
 closeBtn.onclick = () => {
@@ -125,15 +134,15 @@ function getPreviewHTML(doc) {
     const fileUrl = `${API_BASE_URL}${doc.path}`;
 
     if (["pdf"].includes(ext)) {
-        return `<iframe src="${fileUrl}" width="100%" height="600px"></iframe>`;
+        return `<iframe src="${fileUrl}" class="doc-preview-frame pdf"></iframe>`;
     }
     if (["png","jpg","jpeg"].includes(ext)) {
-        return `<img src="${fileUrl}" alt="${doc.filename}" style="max-width:100%; border-radius:6px;">`;
+        return `<img src="${fileUrl}" alt="${doc.filename}" class="doc-preview-img">`;
     }
     if (["txt"].includes(ext)) {
-        return `<iframe src="${fileUrl}" width="100%" height="300px"></iframe>`;
+        return `<iframe src="${fileUrl}" class="doc-preview-frame txt"></iframe>`;
     }
-    return `<p style="color:#666;">Preview not available. <a href="${fileUrl}" target="_blank">Open file</a></p>`;
+    return `<p class="doc-preview-fallback">Preview not available. <a href="${fileUrl}" target="_blank">Open file</a></p>`;
 }
 
 // Load documents from backend
