@@ -4,19 +4,19 @@ export function renderNav(userInfo, containerId = 'navMenu') {
     if (!userInfo || !navMenu) return;
 
     const navConfig = {
-        superadmin: ["dashboard", "profile", "viewables", "employees", "detachments", "documents"],
-        anlstaff: ["dashboard", "profile", "documents"],
-        anlmanager: ["dashboard", "profile", "documents"],
+        superadmin: ["dashboard", "profile", "viewables", "employees", "detachments", "resources"],
+        anlstaff: ["dashboard", "profile", "resources"],
+        anlmanager: ["dashboard", "profile", "resources"],
         finstaff: ["dashboard", "profile", "viewables", "detachments"],
-        finmanager: ["dashboard", "profile", "viewables", "employees", "detachments", "documents"],
-        hrstaff: ["dashboard", "profile", "viewables", "employees", "detachments", "documents"],
-        hrmanager: ["dashboard", "profile", "viewables", "employees", "detachments", "documents"],
-        itsfaff: ["dashboard", "profile", "viewables", "detachments", "documents"],
-        itmanager: ["dashboard", "profile", "viewables", "detachments", "documents"],
-        legstaff: ["dashboard", "profile", "documents"],
-        legmanager: ["dashboard", "profile", "documents"],
-        opsstaff: ["dashboard", "profile", "documents"],
-        opsmanager: ["dashboard", "profile", "documents"],
+        finmanager: ["dashboard", "profile", "viewables", "employees", "detachments", "resources"],
+        hrstaff: ["dashboard", "profile", "viewables", "employees", "detachments", "resources"],
+        hrmanager: ["dashboard", "profile", "viewables", "employees", "detachments", "resources"],
+        itsfaff: ["dashboard", "profile", "viewables", "detachments", "resources"],
+        itmanager: ["dashboard", "profile", "viewables", "detachments", "resources"],
+        legstaff: ["dashboard", "profile", "resources"],
+        legmanager: ["dashboard", "profile", "resources"],
+        opsstaff: ["dashboard", "profile", "resources"],
+        opsmanager: ["dashboard", "profile", "resources"],
         fieldpersonnel: ["dashboard", "profile"],
     };
 
@@ -39,7 +39,7 @@ export function renderNav(userInfo, containerId = 'navMenu') {
                 </div>
             </div>
             `,
-        documents: `<a href="/pages/documents.html"><i class="fa-solid fa-address-book"></i> Policies</a>`
+        resources: `<a href="/pages/documents.html"><i class="fa-solid fa-address-book"></i> Resources</a>`
     };
 
     const userLinks = navConfig[userInfo.userLevel] || [];
@@ -65,7 +65,7 @@ export function renderNav(userInfo, containerId = 'navMenu') {
         'profile.html': ['Employee Details', 'Employee Profile'],
         'employees.html': ['Viewables', 'Employees'],
         'detachments.html': ['Viewables', 'Detachments'],
-        'documents.html': ['Policies', ''],
+        'documents.html': ['Resources', ''],
     };
 
     const crumbList = breadcrumbMap[currentPage];

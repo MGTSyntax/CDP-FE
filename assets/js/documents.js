@@ -10,8 +10,9 @@ const documentList = document.getElementById("document-list");
 const uploadBtn = document.getElementById("uploadBtn");
 const docsUpload = document.getElementById("docsUpload");
 const breadcrumb = document.querySelector(".documents-breadcrumb");
+const uploadBox = document.querySelector(".upload-box");
 
-const deletePermissions = {
+const allowedPermissions = {
     ANL: ["anlmanager", "superadmin"],
     FINANCE: ["finmanager", "superadmin"],
     HR: ["hrmanager", "superadmin"],
@@ -79,7 +80,7 @@ function renderDocuments() {
         return;
     }
 
-    const allowedRoles = (deletePermissions[activeDepartment.toUpperCase()] || []).map(r => r.toLowerCase());
+    const allowedRoles = (allowedPermissions[activeDepartment.toUpperCase()] || []).map(r => r.toLowerCase());
 
     documents.forEach((doc) => {
         const div = document.createElement("div");
@@ -151,6 +152,14 @@ async function loadDocuments() {
         documents = await getDocuments(activeDepartment, selectedDb);
         renderDocuments();
         breadcrumb.textContent = `${activeDepartment} > ${new Date().getFullYear()}`;
+
+        const allowedRoles = (allowedPermissions[activeDepartment.toUpperCase()] || []).map(r => r.toLowerCase());
+
+        if (allowedRoles.includes(userInfo.userLevel?.toLowerCase())) {
+            uploadBox.style.display = "block";
+        }  else {
+            uploadBox.style.display = "none";
+        }
     } catch (err) {
         console.error("Failed to load documents:", err);
         documentList.innerHTML = `<p class="no-docs">Error loading documents.</p>`;
