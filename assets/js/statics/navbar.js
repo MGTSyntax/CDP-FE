@@ -57,9 +57,8 @@ export function renderNav(userInfo, containerId = 'navMenu') {
         });
     }
 
-    // Inject Breadcrumb
+    // Initial breadcrumb (based on page)
     const currentPage = location.pathname.split('/').pop();
-
     const breadcrumbMap = {
         'dashboard.html': ['Dashboard', ''],
         'profile.html': ['Employee Details', 'Employee Profile'],
@@ -70,21 +69,34 @@ export function renderNav(userInfo, containerId = 'navMenu') {
 
     const crumbList = breadcrumbMap[currentPage];
     if (crumbList) {
-        const breadcrumbContainer = document.createElement('nav');
-        breadcrumbContainer.className = 'breadcrumb';
-        breadcrumbContainer.innerHTML = `
-            <div class="content-wrapper">
-                <ul>
-                    ${crumbList.map((label, idx) => {
-                        if (idx === 0) {
-                            return `<li><a href="/pages/dashboard.html">${label}</a></li>`;
-                        } else {
-                            return `<li>${label}</li>`;
-                        }
-                    }).join('')}
-                </ul>
-            </div>
-        `;
-        document.querySelector('.navmenu').insertAdjacentElement('afterend', breadcrumbContainer);
+        updateBreadcrumb(crumbList);
     }
+}
+
+
+/**
+ * Dynamically update breadcrumb
+ * @param {string[]} crumbs - array of breadcrumb labels
+ */
+export function updateBreadcrumb(crumbs) {
+    // Remove existing breadcrumb
+    document.querySelector('.breadcrumb')?.remove();
+
+    const breadcrumbContainer = document.createElement('nav');
+    breadcrumbContainer.className = 'breadcrumb';
+    breadcrumbContainer.innerHTML = `
+        <div class="content-wrapper">
+            <ul>
+                ${crumbs.map((label, idx) => {
+                    if (!label) return "";
+                    if (idx === 0) {
+                        return `<li><a href="/pages/dashboard.html">${label}</a></li>`;
+                    } else {
+                        return `<li>${label}</li>`;
+                    }
+                }).join('')}
+            </ul>
+        </div>
+    `;
+    document.querySelector('.navmenu').insertAdjacentElement('afterend', breadcrumbContainer);
 }

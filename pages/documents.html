@@ -10,40 +10,28 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
     <link rel="stylesheet" href="/assets/css/styles.css">
     <link rel="stylesheet" href="/assets/css/documents.css">
+    <script type="module" src="/assets/js/documents.js"></script>
     <link rel="icon" href="data:,">
 </head>
 
 <body>
-    <div class="navmenu">
-        <div class="content-wrapper">
-            <div id="navMenu"></div>
-        </div>
-    </div>
+    <nav class="navmenu" id="navMenu"></nav>
 
     <main class="content-wrapper documents-page">
         <div class="documents-container">
             <aside class="side-bar">
                 <h3>Departments</h3>
-                <ul class="department-list">
-                    <li data-dept="ANL" class="active">ANL</li>
-                    <li data-dept="Finance">Finance</li>
-                    <li data-dept="HR">HR</li>
-                    <li data-dept="IT">IT</li>
-                    <li data-dept="Legal">Legal</li>
-                    <li data-dept="Operations">Operations</li>
-                </ul>
+                <ul class="department-list"></ul>
             </aside>
         </div>
 
         <section class="documents-section">
             <h2>Documents</h2>
-            <div class="documents-breadcrumb"></div>
-
+            <div id="categoryContainer" class="category-container"></div>
             <div id="document-list" class="document-list"></div>
-
             <div class="upload-box">
                 <button id="uploadBtn">Upload Document</button>
-                <input type="file" id="docsUpload" hidden>
+                <input type="file" id="docsUpload" accept=".pdf,.txt,.png,.jpg,.jpeg" hidden>
             </div>
         </section>
     </main>
@@ -66,7 +54,6 @@
     <footer id="footer"></footer>
 
     <script type="module" src="/assets/js/statics/header.js"></script>
-    <script type="module" src="/assets/js/documents.js"></script>
     <script type="module" src="/assets/js/statics/footer.js"></script>
     <script id="FwkBlq1Gu5pojtB51jK5r" src="https://www.chatbase.co/embed.min.js"></script>
 </body>

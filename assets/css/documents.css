@@ -282,6 +282,16 @@
     text-align: center;
 }
 
+.category-list {
+    display: none;
+    margin-left: 15px;
+    padding: 5px 0;
+}
+
+.department-item.expanded .category-list {
+    display: block;
+}
+
 /* Responsive */
 @media (max-width: 900px) {
     .documents-page {

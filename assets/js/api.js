@@ -107,21 +107,26 @@ export async function logout() {
 // =========================
 
 // Get documents
-export async function getDocuments(department, db) {
-    const response = await fetch(`${API_BASE_URL}/documents/${department}?db=${db}`);
-    if (!response.ok) {
-        throw new Error("Failed to fetch documents");
-    }
+export async function getDocuments(department, db, category) {
+    const url = new URL(`${API_BASE_URL}/documents/${department}`);
+    url.searchParams.append("db", db);
+    if (category) url.searchParams.append("category", category);
+
+    const response = await fetch(url);
+    if (!response.ok) throw new Error("Failed to fetch documents");
     return await response.json();
 }
 
 // Upload document
 export async function uploadDocument(department, file, db) {
     const userInfo = JSON.parse(localStorage.getItem("userInfo")) || {};
+
     const formData = new FormData();
     formData.append("document", file);
-    formData.append("uploadedBy", userInfo.empNo);
-    formData.append("dbName", userInfo.database);
+    formData.append("department", department);
+    formData.append("dbName", db);
+    formData.append("uploadedBy", userInfo.empNo || "system");
+    formData.append("userLevel", userInfo.userLevel || "guest");
 
     const response = await fetch(
         `${API_BASE_URL}/upload?department=${department}&db=${db}`,
@@ -141,10 +146,19 @@ export async function uploadDocument(department, file, db) {
 
 // Delete document
 export async function deleteDocument(department, filename, db) {
+    const userInfo = JSON.parse(localStorage.getItem("userInfo")) || {};
+
     const response = await fetch(
         `${API_BASE_URL}/uploads/${department}/${filename}?db=${db}`,
         {
             method: "DELETE",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                userLevel: userInfo.userLevel,
+                uploadedBy: userInfo.empNo
+            })
         }
     );
 
@@ -154,4 +168,18 @@ export async function deleteDocument(department, filename, db) {
     }
 
     return data;
+}
+
+// Get all department Folders
+export async function getDepartmentFolderList(db) {
+    const res = await fetch(`${API_BASE_URL}/department-folders?db=${db}`);
+    if (!res.ok) throw new Error("Failed to fetch departments");
+    return await res.json();
+}
+
+// Get categories for a department Folder
+export async function getCategories(deptId, db) {
+    const res = await fetch(`${API_BASE_URL}/categories/${deptId}?db=${db}`);
+    if (!res.ok) throw new Error("Failed to fetch categories");
+    return await res.json();
 }
