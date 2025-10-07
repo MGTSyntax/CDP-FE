@@ -1,8 +1,7 @@
-// /assets/js/documents.js
-import { API_BASE_URL, getDocuments, uploadDocument, deleteDocument, getCategories, getDepartmentFolderList } from './api.js';
+// /assets/js/documents-admin.js
+import { API_BASE_URL, uploadDocument, deleteDocument, getDocuments, getCategories, getDepartmentFolderList } from './api.js';
 import { updateBreadcrumb } from './statics/navbar.js';
 
-const selectedDb = localStorage.getItem("selectedDb") || "file_metadata";
 const departmentList = document.querySelector(".department-list");
 const documentList = document.getElementById("document-list");
 const uploadBtn = document.getElementById("uploadBtn");
@@ -12,6 +11,7 @@ const modal = document.getElementById("docModal");
 const closeBtn = document.querySelector(".close-modal");
 const openNewTabBtn = document.querySelector(".open-newtab-btn");
 const userInfo = JSON.parse(localStorage.getItem("userInfo")) || {};
+const selectedDb = userInfo.database || "file_metadata";
 
 const allowedPermissions = {
     ANL: ["anlmanager", "superadmin"],
@@ -23,9 +23,18 @@ const allowedPermissions = {
 };
 
 let activeDepartment = null;
-let activeCategory = null
+let activeCategory = null;
 let currentFileUrl = null;
 let documents = [];
+
+/* -------------------
+   Access Restriction
+------------------- */
+const allowedUserRoles = ["superadmin", "hrmanager", "finmanager", "itmanager", "opsmanager", "legmanager"];
+if (!allowedUserRoles.includes(userInfo.userLevel?.toLowerCase())) {
+  alert("Access denied. Redirecting to documents page.");
+  window.location.href = "/pages/documents.html";
+}
 
 /* -------------------
    File Icon Helper
@@ -64,14 +73,16 @@ async function loadDepartmentFolders() {
 
         departmentList.innerHTML = departmentFolders.map(d => 
             `<li class="department-item" data-deptid="${d.deptid}" data-deptname="${d.deptname}">
-                <button class="department-btn">${d.deptname}</button>
+                <div class="node-label">
+                    <span>${d.deptname}</span>
+                </div>
                 <ul class="category-list"></ul>
             </li>`
         ).join('');
 
-        departmentList.querySelectorAll(".department-btn").forEach(btn => {
-            btn.addEventListener("click", async () => {
-                const parent = btn.closest(".department-item");
+        departmentList.querySelectorAll(".node-label").forEach(label  => {
+            label.addEventListener("click", async () => {
+                const parent = label.closest(".department-item");
                 parent.classList.toggle("expanded");
 
                 const deptId = parent.dataset.deptid;
@@ -80,20 +91,18 @@ async function loadDepartmentFolders() {
 
                 if (!categoryList.dataset.loaded) {
                     const categories = await getCategories(deptId, selectedDb);
-
                     categoryList.innerHTML = categories.map(cat => 
                         `<li>
-                            <button class="category-btn" data-cat="${cat.catname}">${cat.catname}</button>
+                            <span class="category-lbl" data-cat="${cat.catname}">${cat.catname}</span>
                         </li>`
                     ).join('');
                     categoryList.dataset.loaded = "true";
 
-                    categoryList.querySelectorAll(".category-btn").forEach(cbtn => {
+                    categoryList.querySelectorAll(".category-lbl").forEach(cbtn => {
                         cbtn.addEventListener("click", () => {
                             activeDepartment = deptName;
                             activeCategory = cbtn.dataset.cat;
                             loadDocuments();
-
                             updateBreadcrumb(["Resources", deptName, activeCategory]);
                         });
                     });
@@ -108,6 +117,29 @@ async function loadDepartmentFolders() {
 /* -------------------
    Documents
 ------------------- */
+function getPreviewHTML(doc) {
+    const ext = doc.filename.split('.').pop().toLowerCase();
+    const fileUrl = `${API_BASE_URL}${doc.path}`;
+    if (ext === "pdf") return `<iframe src="${fileUrl}" class="doc-preview-frame pdf"></iframe>`;
+    if (["png","jpg","jpeg"].includes(ext)) return `<img src="${fileUrl}" alt="${doc.filename}" class="doc-preview-img">`;
+    if (ext === "txt") return `<iframe src="${fileUrl}" class="doc-preview-frame txt"></iframe>`;
+    return `<p>Preview not available. <a href="${fileUrl}" target="_blank">Open file</a></p>`;
+}
+
+async function loadDocuments() {
+    try {
+        documents = await getDocuments(activeDepartment, selectedDb, activeCategory);
+        renderDocuments();
+
+        const allowedRoles = (allowedPermissions?.[activeDepartment?.toUpperCase()] ?? []).map(r => r.toLowerCase());
+        uploadBox.style.display = allowedRoles.includes(userInfo.userLevel?.toLowerCase()) ? "block" : "none";
+
+    } catch (err) {
+        console.error("Failed to load documents:", err);
+        documentList.innerHTML = `<p class="no-docs">Error loading documents.</p>`;
+    }
+}
+
 function renderDocuments() {
     documentList.innerHTML = "";
     if (!documents || documents.length === 0) {
@@ -115,7 +147,7 @@ function renderDocuments() {
         return;
     }
 
-    const allowedRoles = (allowedPermissions[activeDepartment.toUpperCase()] || []).map(r => r.toLowerCase());
+    const allowedRoles = (allowedPermissions?.[activeDepartment?.toUpperCase()] ?? []).map(r => r.toLowerCase());
 
     documents.forEach((doc) => {
         const div = document.createElement("div");
@@ -163,29 +195,6 @@ function renderDocuments() {
     });
 }
 
-function getPreviewHTML(doc) {
-    const ext = doc.filename.split('.').pop().toLowerCase();
-    const fileUrl = `${API_BASE_URL}${doc.path}`;
-    if (ext === "pdf") return `<iframe src="${fileUrl}" class="doc-preview-frame pdf"></iframe>`;
-    if (["png","jpg","jpeg"].includes(ext)) return `<img src="${fileUrl}" alt="${doc.filename}" class="doc-preview-img">`;
-    if (ext === "txt") return `<iframe src="${fileUrl}" class="doc-preview-frame txt"></iframe>`;
-    return `<p>Preview not available. <a href="${fileUrl}" target="_blank">Open file</a></p>`;
-}
-
-async function loadDocuments() {
-    try {
-        documents = await getDocuments(activeDepartment, selectedDb, activeCategory);
-        renderDocuments();
-
-        const allowedRoles = (allowedPermissions[activeDepartment?.toUpperCase()] || []).map(r => r.toLowerCase());
-        uploadBox.style.display = allowedRoles.includes(userInfo.userLevel?.toLowerCase()) ? "block" : "none";
-
-    } catch (err) {
-        console.error("Failed to load documents:", err);
-        documentList.innerHTML = `<p class="no-docs">Error loading documents.</p>`;
-    }
-}
-
 /* -------------------
    Upload
 ------------------- */
@@ -195,7 +204,7 @@ docsUpload.addEventListener("change", async (e) => {
     if (!file) return;
 
     try {
-        await uploadDocument(activeDepartment, file, selectedDb);
+        await uploadDocument(activeDepartment, file, userInfo?.database, activeCategory);
         loadDocuments();
     } catch (err) {
         alert('Upload failed: ' + err.message);

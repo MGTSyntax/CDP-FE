@@ -1,11 +1,11 @@
-<!-- /pages/documents.html -->
+<!-- /pages/admin-management.html -->
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CDP - Documents</title>
+    <title>CDP - Admin Document Management</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
@@ -19,33 +19,42 @@
     <nav class="navmenu" id="navMenu"></nav>
 
     <main class="content-wrapper">
-        <section class="documents-page">
+        <section class="documents-admin-page">
             <div class="page-header">
-                <h2>Company Documents</h2>
+                <h2>Admin Document Management</h2>
             </div>
 
-            <div class="docs-container">
+            <div class="admin-docs-container">
                 <!-- Sidebar -->
                 <aside class="side-bar">
                     <h3>Departments</h3>
-                    <ul class="department-list" id="department-tree"></ul>
+                    <ul class="department-list"></ul>
                 </aside>
 
-                <!-- Documents Area -->
+                <!-- Main Content -->
                 <div class="documents-section">
+                    <div class="upload-box">
+                        <p>Upload new document</p>
+                        <button id="uploadBtn"><i class="fa-solid fa-upload"></i> Upload File</button>
+                        <input type="file" id="docsUpload" accept=".pdf,.txt,.png,.jpg,.jpeg" hidden>
+                    </div>
+
                     <div id="document-list" class="document-list"></div>
                 </div>
             </div>
 
-            <!-- Viewer Modal -->
-            <div class="modal" id="viewer-modal">
+            <!-- Modal -->
+            <div id="docModal" class="modal">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button id="close-viewer">&times;</button>
+                        <button class="open-newtab-btn" title="Open in New Tab">
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        </button>
+                        <button class="close-modal" title="Close">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
                     </div>
-                    <div class="modal-body">
-                        <iframe id="doc-viewer" class="doc-preview-frame"></iframe>
-                    </div>
+                    <div class="modal-body"></div>
                 </div>
             </div>
         </section>
@@ -55,7 +64,7 @@
 
     <script type="module" src="/assets/js/statics/header.js"></script>
     <script type="module" src="/assets/js/statics/footer.js"></script>
-    <script type="module" src="/assets/js/documents-view.js"></script>
+    <script type="module" src="/assets/js/documents-admin.js"></script>
     <script id="FwkBlq1Gu5pojtB51jK5r" src="https://www.chatbase.co/embed.min.js"></script>
 </body>
 

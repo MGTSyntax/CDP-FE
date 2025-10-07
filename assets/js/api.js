@@ -1,8 +1,9 @@
-// /assets/js/api.js - Centralized API Handling
-
+// /assets/js/api.js
 export const API_BASE_URL = 'http://localhost:3100';
 
-// Fetch Databases
+/* ============================
+   AUTH & USER APIs
+============================ */
 export async function getDatabases() {
     try {
         const response = await fetch(`${API_BASE_URL}/databases`);
@@ -14,36 +15,28 @@ export async function getDatabases() {
     }
 }
 
-// Perform Login Request
 export async function loginUser(database, username, password) {
     try {
-        const response = await fetch(`${API_BASE_URL}/login`, {
+        const res = await fetch(`${API_BASE_URL}/login`, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ database, username, password }),
         });
 
-        if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.message || 'Login failed');
-        }
-        return await response.json(); // Token or success response
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message || 'Login failed');
+        return data;
     } catch (error) {
         console.error('Error during login:', error);
         throw error;
     }
 }
 
-// Get User Info by Employee No.
 export async function getUserInfo(db, empNo) {
     try {
         const response = await fetch(`${API_BASE_URL}/user-info?db=${db}&empNo=${empNo}`);
         const data = await response.json();
-        if (!response.ok) {
-            throw new Error(data.error || 'Failed to fetch user info');
-        }
+        if (!response.ok) throw new Error(data.error || 'Failed to fetch user info');
         return data;
     } catch (error) {
         console.error('Error fetching user info:', error);
@@ -51,15 +44,12 @@ export async function getUserInfo(db, empNo) {
     }
 }
 
-// Fetch complete employee profile by employee number
 export async function getEmpProfile(db, empNo) {
     try {
         const response = await fetch(`${API_BASE_URL}/employee-profile?db=${db}&empNo=${empNo}`);
-        const empProfdata = await response.json();
-        if (!response.ok) {
-            throw new Error(empProfdata.error || 'Failed to fetch employee profile');
-        }
-        return empProfdata;
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || 'Failed to fetch employee profile');
+        return data;
     } catch (error) {
         console.error('Error fetching employee profile:', error);
         return null;
@@ -102,10 +92,9 @@ export async function logout() {
     }
 }
 
-// =========================
-// Documents API
-// =========================
-
+/* ============================
+   DOCUMENT MANAGEMENT APIs
+============================ */
 // Get documents
 export async function getDocuments(department, db, category) {
     const url = new URL(`${API_BASE_URL}/documents/${department}`);
@@ -118,7 +107,7 @@ export async function getDocuments(department, db, category) {
 }
 
 // Upload document
-export async function uploadDocument(department, file, db) {
+export async function uploadDocument(department, file, db, category) {
     const userInfo = JSON.parse(localStorage.getItem("userInfo")) || {};
 
     const formData = new FormData();
@@ -127,9 +116,10 @@ export async function uploadDocument(department, file, db) {
     formData.append("dbName", db);
     formData.append("uploadedBy", userInfo.empNo || "system");
     formData.append("userLevel", userInfo.userLevel || "guest");
+    if (category) formData.append("category", category);
 
     const response = await fetch(
-        `${API_BASE_URL}/upload?department=${department}&db=${db}`,
+        `${API_BASE_URL}/upload?department=${department}&db=${db}${category ? `&category=${category}` : ""}`,
         {
             method: "POST",
             body: formData,

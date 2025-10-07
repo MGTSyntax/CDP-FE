@@ -694,3 +694,301 @@
 //         setupPagination(currentData.length);
 //     }
 // });
+
+// /assets/js/documents.js
+<!-- import { API_BASE_URL, getDocuments, uploadDocument, deleteDocument, getCategories, getDepartmentFolderList } from './api.js';
+import { updateBreadcrumb } from './statics/navbar.js';
+
+const selectedDb = localStorage.getItem("selectedDb") || "file_metadata";
+const departmentList = document.querySelector(".department-list");
+const documentList = document.getElementById("document-list");
+const uploadBtn = document.getElementById("uploadBtn");
+const docsUpload = document.getElementById("docsUpload");
+const uploadBox = document.querySelector(".upload-box");
+const modal = document.getElementById("docModal");
+const closeBtn = document.querySelector(".close-modal");
+const openNewTabBtn = document.querySelector(".open-newtab-btn");
+const userInfo = JSON.parse(localStorage.getItem("userInfo")) || {};
+
+const allowedPermissions = {
+    ANL: ["anlmanager", "superadmin"],
+    FINANCE: ["finmanager", "superadmin"],
+    HR: ["hrmanager", "superadmin"],
+    IT: ["itmanager", "superadmin"],
+    LEGAL: ["legmanager", "superadmin"],
+    OPERATIONS: ["opsmanager", "superadmin"]
+};
+
+let activeDepartment = null;
+let activeCategory = null
+let currentFileUrl = null;
+let documents = [];
+
+/* -------------------
+   File Icon Helper
+------------------- */
+function getFileIcon(filename) {
+    const ext = filename.split('.').pop().toLowerCase();
+    switch (ext) {
+        case "pdf": return `<i class="fa-solid fa-file-pdf" style="color:#d9534f;"></i>`;
+        case "png":
+        case "jpg":
+        case "jpeg": return `<i class="fa-solid fa-file-image" style="color:#f0ad4e;"></i>`;
+        case "txt": return `<i class="fa-solid fa-file-lines" style="color:#6c757d;"></i>`;
+        default: return `<i class="fa-solid fa-file" style="color:#999;"></i>`;
+    }
+}
+
+/* -------------------
+   Modal Handlers
+------------------- */
+function openModal(doc) {
+    const modalBody = modal.querySelector(".modal-body");
+    currentFileUrl = `${API_BASE_URL}${doc.path}`;
+    modalBody.innerHTML = getPreviewHTML(doc);
+    modal.classList.add("show");
+}
+openNewTabBtn.onclick = () => (currentFileUrl) && window.open(currentFileUrl, "_blank");
+closeBtn.onclick = () => modal.classList.remove("show");
+modal.addEventListener("click", (e) => { if (e.target === modal) modal.classList.remove("show"); });
+
+/* -------------------
+   Departments + Categories
+------------------- */
+async function loadDepartmentFolders() {
+    try {
+        const departmentFolders = await getDepartmentFolderList(selectedDb);
+
+        departmentList.innerHTML = departmentFolders.map(d => 
+            `<li class="department-item" data-deptid="${d.deptid}" data-deptname="${d.deptname}">
+                <button class="department-btn">${d.deptname}</button>
+                <ul class="category-list"></ul>
+            </li>`
+        ).join('');
+
+        departmentList.querySelectorAll(".department-btn").forEach(btn => {
+            btn.addEventListener("click", async () => {
+                const parent = btn.closest(".department-item");
+                parent.classList.toggle("expanded");
+
+                const deptId = parent.dataset.deptid;
+                const deptName = parent.dataset.deptname;
+                const categoryList = parent.querySelector(".category-list");
+
+                if (!categoryList.dataset.loaded) {
+                    const categories = await getCategories(deptId, selectedDb);
+
+                    categoryList.innerHTML = categories.map(cat => 
+                        `<li>
+                            <button class="category-btn" data-cat="${cat.catname}">${cat.catname}</button>
+                        </li>`
+                    ).join('');
+                    categoryList.dataset.loaded = "true";
+
+                    categoryList.querySelectorAll(".category-btn").forEach(cbtn => {
+                        cbtn.addEventListener("click", () => {
+                            activeDepartment = deptName;
+                            activeCategory = cbtn.dataset.cat;
+                            loadDocuments();
+
+                            updateBreadcrumb(["Resources", deptName, activeCategory]);
+                        });
+                    });
+                }
+            });
+        });
+    } catch (err) {
+        console.error("Failed to load departments:", err);
+    }
+}
+
+/* -------------------
+   Documents
+------------------- */
+function renderDocuments() {
+    documentList.innerHTML = "";
+    if (!documents || documents.length === 0) {
+        documentList.innerHTML = `<p class="no-docs">No documents available for ${activeDepartment}</p>`;
+        return;
+    }
+
+    const allowedRoles = (allowedPermissions[activeDepartment.toUpperCase()] || []).map(r => r.toLowerCase());
+
+    documents.forEach((doc) => {
+        const div = document.createElement("div");
+        div.classList.add("document-item");
+        div.innerHTML = `
+            <div class="doc-header">
+                <div class="file-info">
+                    ${getFileIcon(doc.filename)}
+                    <span class="filename">${doc.filename}</span>
+                </div>
+                <div class="actions">
+                    <button class="preview-btn" aria-label="Preview Document">
+                        <i class="fa-solid fa-eye"></i>
+                    </button>
+                    ${allowedRoles.includes(userInfo.userLevel?.toLowerCase())
+                ? `<button class="delete-btn" data-file="${doc.filename}">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>` : ""
+            }
+                </div>
+            </div>
+        `;
+        documentList.appendChild(div);
+
+        // Preview
+        div.querySelector(".preview-btn").addEventListener("click", () => openModal(doc));
+
+        // Delete
+        const deleteBtn = div.querySelector(".delete-btn");
+        if (deleteBtn) {
+            deleteBtn.addEventListener("click", async () => {
+                const filename = deleteBtn.dataset.file;
+                if (!confirm(`Are you sure you want to delete ${filename}?`)) return;
+
+                try {
+                    await deleteDocument(activeDepartment, filename, selectedDb);
+                    div.remove();
+                    documents = documents.filter((d) => d.filename !== filename);
+                    renderDocuments();
+                } catch (err) {
+                    alert("Failed to delete file: " + err.message);
+                }
+            });
+        }
+    });
+}
+
+function getPreviewHTML(doc) {
+    const ext = doc.filename.split('.').pop().toLowerCase();
+    const fileUrl = `${API_BASE_URL}${doc.path}`;
+    if (ext === "pdf") return `<iframe src="${fileUrl}" class="doc-preview-frame pdf"></iframe>`;
+    if (["png","jpg","jpeg"].includes(ext)) return `<img src="${fileUrl}" alt="${doc.filename}" class="doc-preview-img">`;
+    if (ext === "txt") return `<iframe src="${fileUrl}" class="doc-preview-frame txt"></iframe>`;
+    return `<p>Preview not available. <a href="${fileUrl}" target="_blank">Open file</a></p>`;
+}
+
+async function loadDocuments() {
+    try {
+        documents = await getDocuments(activeDepartment, selectedDb, activeCategory);
+        renderDocuments();
+
+        const allowedRoles = (allowedPermissions[activeDepartment?.toUpperCase()] || []).map(r => r.toLowerCase());
+        uploadBox.style.display = allowedRoles.includes(userInfo.userLevel?.toLowerCase()) ? "block" : "none";
+
+    } catch (err) {
+        console.error("Failed to load documents:", err);
+        documentList.innerHTML = `<p class="no-docs">Error loading documents.</p>`;
+    }
+}
+
+/* -------------------
+   Upload
+------------------- */
+uploadBtn.addEventListener("click", () => docsUpload.click());
+docsUpload.addEventListener("change", async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    try {
+        await uploadDocument(activeDepartment, file, selectedDb);
+        loadDocuments();
+    } catch (err) {
+        alert('Upload failed: ' + err.message);
+    } finally {
+        docsUpload.value = '';
+    }
+});
+
+/* -------------------
+   Init
+------------------- */
+loadDepartmentFolders(); -->
+
+// .document-item .doc-preview {
+//     max-height: 0;
+//     overflow: hidden;
+//     transition: max-height 0.3s ease, padding 0.3s ease;
+//     padding: 0;
+//     border-top: 1px solid #eee;
+//     margin-top: 10px;
+// }
+
+// .document-item .doc-preview.open {
+//     max-height: 600px;
+//     padding: 10px 0;
+// }
+
+// .document-item .doc-preview iframe,
+// .document-item .doc-preview img {
+//     width: 100%;
+//     border: none;
+// }
+
+// /* Filename */
+// .document-item span {
+//     font-size: 0.95rem;
+//     color: #333;
+//     font-weight: 500;
+// }
+
+// /* Actions */
+// .document-item .actions {
+//     display: flex;
+//     align-items: center;
+//     gap: 8px;
+// }
+
+// .document-item .actions button {
+//     font-size: 0.9rem;
+//     padding: 5px;
+//     border-radius: 6px;
+//     border: none;
+//     cursor: pointer;
+//     transition: background 0.2s ease, color 0.2s ease;
+//     background: none;
+//     color: #555;
+// }
+
+// .document-item .actions button:hover {
+//     background: #007bff;
+//     color: white;
+// }
+
+// .doc-preview-frame {
+//     width: 100%;
+//     height: 100%;
+//     border: none;
+// }
+
+// .doc-preview-frame.pdf {
+//     height: 100%;
+// }
+
+// .doc-preview-frame.txt {
+//     height: 400px;
+// }
+
+// .doc-preview-img {
+//     max-width: 100%;
+//     max-height: 90vh;
+//     object-fit: contain;
+//     border-radius: 6px;
+// }
+
+// .doc-preview-fallback {
+//     color: #666;
+//     font-size: 0.95rem;
+//     text-align: center;
+// }
+
+// .category-list {
+//     display: none;
+//     margin-left: 15px;
+//     padding: 5px 0;
+// }
+
+// .department-item.expanded .category-list {
+//     display: block;
+// }
