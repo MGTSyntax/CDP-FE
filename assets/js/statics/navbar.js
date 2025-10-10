@@ -39,7 +39,15 @@ export function renderNav(userInfo, containerId = 'navMenu') {
                 </div>
             </div>
             `,
-        resources: `<a href="/pages/documents.html"><i class="fa-solid fa-address-book"></i> Resources</a>`
+        resources: `
+            <div class="dropdown">
+                <button class="dropbtn"><i class="fa-solid fa-address-book"></i> Resources <i class="fa fa-caret-down"></i></button>
+                <div class="dropdown-content">
+                    <a href="/pages/documents.html">Documents</a>
+                    <a href="/pages/admin-documents.html">Admin Management</a>
+                </div>
+            </div>
+            `
     };
 
     const userLinks = navConfig[userInfo.userLevel] || [];
@@ -64,7 +72,8 @@ export function renderNav(userInfo, containerId = 'navMenu') {
         'profile.html': ['Employee Details', 'Employee Profile'],
         'employees.html': ['Viewables', 'Employees'],
         'detachments.html': ['Viewables', 'Detachments'],
-        'documents.html': ['Resources', ''],
+        'documents.html': ['Resources', 'Documents'],
+        'admin-documents.html': ['Resources', 'Admin Management'],
     };
 
     const crumbList = breadcrumbMap[currentPage];

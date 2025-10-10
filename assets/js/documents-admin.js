@@ -64,9 +64,9 @@ openNewTabBtn.onclick = () => (currentFileUrl) && window.open(currentFileUrl, "_
 closeBtn.onclick = () => modal.classList.remove("show");
 modal.addEventListener("click", (e) => { if (e.target === modal) modal.classList.remove("show"); });
 
-/* -------------------
+/* --------------------------
    Departments + Categories
-------------------- */
+-------------------------- */
 async function loadDepartmentFolders() {
     try {
         const departmentFolders = await getDepartmentFolderList(selectedDb);
@@ -83,7 +83,15 @@ async function loadDepartmentFolders() {
         departmentList.querySelectorAll(".node-label").forEach(label  => {
             label.addEventListener("click", async () => {
                 const parent = label.closest(".department-item");
-                parent.classList.toggle("expanded");
+                const isAlreadyExpanded = parent.classList.contains("expanded");
+
+                departmentList.querySelectorAll(".department-item").forEach(item => {
+                    item.classList.remove("expanded");
+                });
+
+                if (!isAlreadyExpanded) {
+                    parent.classList.add("expanded");
+                }
 
                 const deptId = parent.dataset.deptid;
                 const deptName = parent.dataset.deptname;

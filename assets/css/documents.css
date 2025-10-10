@@ -271,6 +271,7 @@
     cursor: pointer;
     font-size: 0.85rem;
     transition: background 0.2s ease;
+    width: 100px;
 }
 
 .open-btn:hover {

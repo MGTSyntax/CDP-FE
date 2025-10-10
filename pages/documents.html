@@ -37,15 +37,18 @@
                 </div>
             </div>
 
-            <!-- Viewer Modal -->
-            <div class="modal" id="viewer-modal">
+            <!-- Modal -->
+            <div id="docModal" class="modal">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button id="close-viewer">&times;</button>
+                        <button class="open-newtab-btn" title="Open in New Tab">
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        </button>
+                        <button class="close-modal" title="Close">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
                     </div>
-                    <div class="modal-body">
-                        <iframe id="doc-viewer" class="doc-preview-frame"></iframe>
-                    </div>
+                    <div class="modal-body"></div>
                 </div>
             </div>
         </section>
