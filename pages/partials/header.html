@@ -7,12 +7,28 @@
         <div class="right-header">
             <div class="datetime" id="datetime"></div>
             <div class="avatar-menu">
-                <img src="/assets/images/profile-avatar.jpg" alt="avatar" class="avatar" id="avataBtn">
+                <img src="/assets/images/profile-avatar.jpg" alt="avatar" class="avatar" id="avatarBtn">
                 <div class="dropdown" id="avatarDropdown">
                     <a href="/pages/profile.html"><i class="fa-solid fa-user"></i> Profile</a>
-                    <button id="logoutBtn"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
                 </div>
             </div>
         </div>
     </div>
 </header>
+
+<!-- Right Drawer -->
+<div class="drawer" id="drawer">
+    <div class="drawer-content">
+        <button class="close-btn" id="closeDrawer">&times;</button>
+        <div class="drawer-header">
+            <img src="/assets/images/profile-avatar.jpg" alt="avatar" class="drawer-avatar">
+            <h3 id="drawerName">User Name</h3>
+            <p id="drawerRole">Role / Department</p>
+        </div>
+        <hr>
+        <ul class="drawer-links">
+            <li><a href="/pages/profile.html"><i class="fa-solid fa-user"></i> Profile</a></li>
+            <li><button id="signoutBtn"><i class="fa-solid fa-right-from-bracket"></i> Sign Out</button></li>
+        </ul>
+    </div>
+</div>

@@ -12,14 +12,17 @@ const closeBtn = document.querySelector(".close-modal");
 const openNewTabBtn = document.querySelector(".open-newtab-btn");
 const userInfo = JSON.parse(localStorage.getItem("userInfo")) || {};
 const selectedDb = userInfo.database || "file_metadata";
+const userLevel = Number(userInfo.userLevel);
+
+console.log(userInfo.userLevel);
 
 const allowedPermissions = {
-    ANL: ["anlmanager", "superadmin"],
-    FINANCE: ["finmanager", "superadmin"],
-    HR: ["hrmanager", "superadmin"],
-    IT: ["itmanager", "superadmin"],
-    LEGAL: ["legmanager", "superadmin"],
-    OPERATIONS: ["opsmanager", "superadmin"]
+    ANL: [1, 3],
+    FINANCE: [1, 5],
+    HR: [1, 7],
+    IT: [1, 9],
+    LEGAL: [1, 11],
+    OPERATIONS: [1, 13]
 };
 
 let activeDepartment = null;
@@ -30,8 +33,9 @@ let documents = [];
 /* -------------------
    Access Restriction
 ------------------- */
-const allowedUserRoles = ["superadmin", "hrmanager", "finmanager", "itmanager", "opsmanager", "legmanager"];
-if (!allowedUserRoles.includes(userInfo.userLevel?.toLowerCase())) {
+
+const allowedUserRoles = [1, 3, 5, 7, 9, 11, 13];
+if (!allowedUserRoles.includes(userLevel)) {
   alert("Access denied. Redirecting to documents page.");
   window.location.href = "/pages/documents.html";
 }
@@ -139,8 +143,8 @@ async function loadDocuments() {
         documents = await getDocuments(activeDepartment, selectedDb, activeCategory);
         renderDocuments();
 
-        const allowedRoles = (allowedPermissions?.[activeDepartment?.toUpperCase()] ?? []).map(r => r.toLowerCase());
-        uploadBox.style.display = allowedRoles.includes(userInfo.userLevel?.toLowerCase()) ? "block" : "none";
+        const allowedRoles = (allowedPermissions?.[activeDepartment?.toUpperCase()] ?? []).map(Number);
+        uploadBox.style.display = allowedRoles.includes(userLevel) ? "block" : "none";
 
     } catch (err) {
         console.error("Failed to load documents:", err);
@@ -155,7 +159,7 @@ function renderDocuments() {
         return;
     }
 
-    const allowedRoles = (allowedPermissions?.[activeDepartment?.toUpperCase()] ?? []).map(r => r.toLowerCase());
+    const allowedRoles = (allowedPermissions?.[activeDepartment?.toUpperCase()] ?? []).map(Number);
 
     documents.forEach((doc) => {
         const div = document.createElement("div");
@@ -170,7 +174,7 @@ function renderDocuments() {
                     <button class="preview-btn" aria-label="Preview Document">
                         <i class="fa-solid fa-eye"></i>
                     </button>
-                    ${allowedRoles.includes(userInfo.userLevel?.toLowerCase())
+                    ${allowedRoles.includes(userLevel)
                 ? `<button class="delete-btn" data-file="${doc.filename}">
                         <i class="fa-solid fa-trash-can"></i>
                     </button>` : ""

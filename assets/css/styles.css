@@ -239,3 +239,76 @@ main {
 #footer p {
     margin: 0;
 }
+
+/* DRAWER */
+.drawer {
+    position: fixed;
+    top: 0;
+    right: -350px; /* hidden by default */
+    width: 350px;
+    height: 100%;
+    background-color: #fff;
+    box-shadow: -4px 0 15px rgba(0, 0, 0, 0.2);
+    transition: right 0.3s ease-in-out;
+    z-index: 1000;
+}
+
+.drawer.show {
+    right: 0;
+}
+
+.drawer-content {
+    padding: 20px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    align-self: flex-end;
+    margin-bottom: 1rem;
+}
+
+.drawer-header {
+    text-align: center;
+}
+
+.drawer-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-bottom: 0.5rem;
+}
+
+.drawer-links {
+    margin-top: 2rem;
+}
+
+.drawer-links li {
+    margin-bottom: 1rem;
+}
+
+.drawer-links a,
+.drawer-links button {
+    background: none;
+    border: none;
+    color: #333;
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+    text-align: left;
+    padding: 0.5rem 0;
+}
+
+.drawer-links a:hover,
+.drawer-links button:hover {
+    color: #007bff;
+}

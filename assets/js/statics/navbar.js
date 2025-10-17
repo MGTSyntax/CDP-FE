@@ -1,94 +1,111 @@
 // /assets/js/statics/navbar.js
-export function renderNav(userInfo, containerId = 'navMenu') {
+export async function renderNav(userInfo, containerId = 'navMenu') {
     const navMenu = document.getElementById(containerId);
-    if (!userInfo || !navMenu) return;
+    if (!userInfo || !userInfo.permissions || !navMenu) return;
 
-    const navConfig = {
-        superadmin: ["dashboard", "profile", "viewables", "employees", "detachments", "resources"],
-        anlstaff: ["dashboard", "profile", "resources"],
-        anlmanager: ["dashboard", "profile", "resources"],
-        finstaff: ["dashboard", "profile", "viewables", "detachments"],
-        finmanager: ["dashboard", "profile", "viewables", "employees", "detachments", "resources"],
-        hrstaff: ["dashboard", "profile", "viewables", "employees", "detachments", "resources"],
-        hrmanager: ["dashboard", "profile", "viewables", "employees", "detachments", "resources"],
-        itsfaff: ["dashboard", "profile", "viewables", "detachments", "resources"],
-        itmanager: ["dashboard", "profile", "viewables", "detachments", "resources"],
-        legstaff: ["dashboard", "profile", "resources"],
-        legmanager: ["dashboard", "profile", "resources"],
-        opsstaff: ["dashboard", "profile", "resources"],
-        opsmanager: ["dashboard", "profile", "resources"],
-        fieldpersonnel: ["dashboard", "profile"],
-    };
+    const visibleModules = userInfo.permissions
+        .filter(p => p.viewing)
+        .map(p => p.module);
 
     const linkMap = {
         dashboard: `<a href="/pages/dashboard.html"><i class="fa-solid fa-square-poll-horizontal"></i> Dashboard</a>`,
-        profile: `
-            <div class="dropdown">
-                <span class="dropbtn"><i class="fa fa-user"></i> Employee Details <i class="fa fa-caret-down"></i></span>
-                <div class="dropdown-content">
-                    <a href="/pages/profile.html"><i class="fa fa-user"></i> Employee Profile</a>
-                </div>
-            </div>
-            `,
-        viewables: `
-            <div class="dropdown">
-                <button class="dropbtn"><i class="fa-solid fa-address-book"></i> Viewable Lists <i class="fa fa-caret-down"></i></button>
-                <div class="dropdown-content">
-                    <a href="/pages/employees.html">Employee List</a>
-                    <a href="/pages/detachments.html">Detachment List</a>
-                </div>
-            </div>
-            `,
-        resources: `
-            <div class="dropdown">
-                <button class="dropbtn"><i class="fa-solid fa-address-book"></i> Resources <i class="fa fa-caret-down"></i></button>
-                <div class="dropdown-content">
-                    <a href="/pages/documents.html">Documents</a>
-                    <a href="/pages/admin-documents.html">Admin Management</a>
-                </div>
-            </div>
-            `
+        profile: `<a href="/pages/profile.html"><i class="fa fa-user"></i> My Profile</a>`,
     };
 
-    const userLinks = navConfig[userInfo.userLevel] || [];
-    let navHtml = userLinks.map(key => linkMap[key]).join('');
-    navHtml += `<button id="logoutBtn"><i class="fa-solid fa-right-from-bracket"></i> Sign Out</button>`;
+    const hasDocuments = visibleModules.includes('documents');
+    const hasAdminDocs = visibleModules.includes('adminDocs');
+    const hasEmpList = visibleModules.includes('employeeList');
+    const hasDetList = visibleModules.includes('detachmentList');
+
+    let resourcesDropdown = '';
+    let reportsDropdown = '';
+
+    // === RESOURCES DROPDOWN ===
+    if (hasDocuments || hasAdminDocs) {
+        let resourceItems = '';
+        if (hasDocuments)
+            resourceItems += `<a href="/pages/documents.html"><i class="fa fa-folder"></i> Documents</a>`;
+        if (hasAdminDocs)
+            resourceItems += `<a href="/pages/admin-documents.html"><i class="fa fa-briefcase"></i> Admin Docs</a>`;
+
+        resourcesDropdown = `
+            <div class="dropdown">
+                <button class="dropbtn">
+                    <i class="fa-solid fa-address-book"></i> Resources
+                    <i class="fa fa-caret-down"></i>
+                </button>
+                <div class="dropdown-content">
+                    ${resourceItems}
+                </div>
+            </div>
+        `;
+    }
+
+    // === REPORTS DROPDOWN ===
+    if (hasEmpList || hasDetList) {
+        let reportItems = '';
+        if (hasEmpList)
+            reportItems += `<a href="/pages/employees.html"><i class="fa fa-users"></i> Employees</a>`;
+        if (hasDetList)
+            reportItems += `<a href="/pages/detachments.html"><i class="fa fa-map-marker-alt"></i> Detachments</a>`;
+
+        reportsDropdown = `
+            <div class="dropdown">
+                <button class="dropbtn">
+                    <i class="fa-solid fa-clipboard-list"></i> Reports
+                    <i class="fa fa-caret-down"></i>
+                </button>
+                <div class="dropdown-content">
+                    ${reportItems}
+                </div>
+            </div>
+        `;
+    }
+
+    // === MAIN NAV LINKS ===
+    let navHtml = visibleModules
+        .filter(m => !['documents', 'adminDocs', 'employeeList', 'detachmentList'].includes(m)) // exclude dropdowns
+        .map(m => linkMap[m] || '')
+        .join('');
+
+    if (resourcesDropdown) navHtml += resourcesDropdown;
+    if (reportsDropdown) navHtml += reportsDropdown;
+
+    // ✅ Add working sign-out button in navbar
+    navHtml += `<button id="logoutBtn" class="logout-btn">
+                    <i class="fa-solid fa-right-from-bracket"></i> Sign Out
+                </button>`;
 
     navMenu.innerHTML = navHtml;
 
-    // Logout Handler
+    // === LOGOUT HANDLER ===
     const logoutBtn = document.getElementById('logoutBtn');
     if (logoutBtn) {
         logoutBtn.addEventListener('click', () => {
+            console.log('Logging out...');
             localStorage.removeItem('userInfo');
             window.location.href = '/pages/login.html';
         });
+    } else {
+        console.warn('Logout button not found in navbar.');
     }
 
-    // Initial breadcrumb (based on page)
+    // === BREADCRUMB HANDLER ===
     const currentPage = location.pathname.split('/').pop();
     const breadcrumbMap = {
         'dashboard.html': ['Dashboard', ''],
         'profile.html': ['Employee Details', 'Employee Profile'],
-        'employees.html': ['Viewables', 'Employees'],
-        'detachments.html': ['Viewables', 'Detachments'],
+        'employees.html': ['Reports', 'Employees'],
+        'detachments.html': ['Reports', 'Detachments'],
         'documents.html': ['Resources', 'Documents'],
-        'admin-documents.html': ['Resources', 'Admin Management'],
+        'admin-documents.html': ['Resources', 'Admin Docs'],
     };
 
     const crumbList = breadcrumbMap[currentPage];
-    if (crumbList) {
-        updateBreadcrumb(crumbList);
-    }
+    if (crumbList) updateBreadcrumb(crumbList, containerId);
 }
 
-
-/**
- * Dynamically update breadcrumb
- * @param {string[]} crumbs - array of breadcrumb labels
- */
-export function updateBreadcrumb(crumbs) {
-    // Remove existing breadcrumb
+export function updateBreadcrumb(crumbs, containerId = 'navMenu') {
     document.querySelector('.breadcrumb')?.remove();
 
     const breadcrumbContainer = document.createElement('nav');
@@ -98,14 +115,17 @@ export function updateBreadcrumb(crumbs) {
             <ul>
                 ${crumbs.map((label, idx) => {
                     if (!label) return "";
-                    if (idx === 0) {
-                        return `<li><a href="/pages/dashboard.html">${label}</a></li>`;
-                    } else {
-                        return `<li>${label}</li>`;
-                    }
+                    if (idx === 0) return `<li><a href="/pages/dashboard.html">${label}</a></li>`;
+                    return `<li>${label}</li>`;
                 }).join('')}
             </ul>
         </div>
     `;
-    document.querySelector('.navmenu').insertAdjacentElement('afterend', breadcrumbContainer);
+
+    const navWrapper = document.querySelector('.navmenu');
+    if (navWrapper) {
+        navWrapper.insertAdjacentElement('afterend', breadcrumbContainer);
+    } else {
+        console.warn('⚠️ navmenu container not found for breadcrumb placement.');
+    }
 }

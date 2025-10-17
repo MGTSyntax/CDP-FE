@@ -1,6 +1,4 @@
 // /assets/js/dashboard.js
-
-import { renderNav } from "./statics/navbar.js";
 import { getEmpProfile } from "./api.js";
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -32,7 +30,5 @@ async function loadProfile() {
 
         const jiPosition = document.getElementById("ji_pos");
         if (jiPosition) jiPosition.textContent = profile.jobInfo.ji_pos || '';
-
     }
-
 }
