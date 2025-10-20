@@ -84,6 +84,14 @@ function initHeaderFunctions(userInfo) {
 
     signoutBtn?.addEventListener('click', () => {
         localStorage.removeItem('userInfo');
-        window.location.href = '/pages/login.html';
+
+        const currentPath = window.location.pathname;
+
+        if (currentPath.includes('/pages/')) {
+            window.location.href = '/login.html';
+        } else {
+            window.location.href = '/pages/login.html';
+        }
+        
     });
 }

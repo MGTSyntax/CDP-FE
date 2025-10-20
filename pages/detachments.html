@@ -19,41 +19,45 @@
         </div>
     </div>
 
-    <main>
-        <div class="menu">
-            <div class="selection">
-                <label for="dbSelect">Select Database:</label>
-                <select id="dbSelect"></select>
-                <button id="fetchDB">View</button>
-            </div>
-            <div class="searching">
-                <label for="searchInput">Search:</label>
-                <input type="text" id="searchInput" placeholder="Search clients or detachments">
-            </div>
+    <main class="detachment-page">
+        <div class="content-wrapper">
+            <section class="menu">
+                <div class="selection">
+                    <label for="dbSelect">Select Database:</label>
+                    <select id="dbSelect"></select>
+                    <button id="fetchDB"><i class="fa-solid fa-database"></i>View</button>
+                </div>
+
+                <div class="searching">
+                    <label for="searchInput">Search:</label>
+                    <input type="text" id="searchInput" placeholder="Search clients or detachments">
+                </div>
+            </section>
         </div>
 
-        <table id="departmentsTable">
-            <thead>
-                <tr>
-                    <th>Client Code</th>
-                    <th>Client Name</th>
-                    <th>Detachment Code</th>
-                    <th>Detachment Name</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
+        <section class="table-section">
+            <table id="departmentsTable">
+                <thead>
+                    <tr>
+                        <th>Client Code</th>
+                        <th>Client Name</th>
+                        <th>Detachment Code</th>
+                        <th>Detachment Name</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
 
-        <div id="paginationControls" class="pagination-controls"></div>
+            <div id="paginationControls" class="pagination-controls"></div>
+        </section>
     </main>
 
     <footer id="footer"></footer>
 
     <script type="module" src="/assets/js/statics/header.js"></script>
+    <script type="module" src="/assets/js/statics/footer.js"></script>
     <script type="module" src="/assets/js/api.js"></script>
     <script type="module" src="/assets/js/script.js"></script>
-    <script type="module" src="/assets/js/statics/footer.js"></script>
     <script id="FwkBlq1Gu5pojtB51jK5r" src="https://www.chatbase.co/embed.min.js"></script>
 </body>
-
 </html>

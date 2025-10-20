@@ -9,13 +9,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     let detachmentsData = [];
     const detachmentsCol = ['dept_code', 'dept_name', 'sec_code', 'sec_name'];
 
-    // For employees
-    const dbSelectForEmp = document.querySelector('#dbSelectforEmp');
-    const viewDataBtnforEmp = document.querySelector('#fetchDBforEmp');
-
-    let employeeData = [];
-    const employeesCol = ['emp_code', 'emp_name', 'empsec_code', 'empsec_name'];
-
     const tableBody = document.querySelector('#departmentsTable tbody');
     const searchInput = document.querySelector('#searchInput');
     const paginationControls = document.querySelector('#paginationControls');
@@ -27,31 +20,32 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     function getItemsPerPage() {
         const screenHeight = window.innerHeight;
-        if (screenHeight <= 653) {
-            return 10;
-        } else if (screenHeight > 653 && screenHeight <= 965) {
-            return 20;
-        } else {
-            return 25;
-        }
+        if (screenHeight <= 653) return 10;
+        if (screenHeight <= 965) return 20;
+        return 25;
     }
 
     // Fetch and Populate Databases for Selection
     async function populateDatabases() {
-        const databases = await getDatabases();
+        try {
+            const databases = await getDatabases();
+            if (!databases?.length) return;
 
-        if (dbSelect) {
-            databases.forEach(db => {
-                const option1 = new Option(db.label, db.value);
-                dbSelect.appendChild(option1);
-            });
-        }
+            if (dbSelect) {
+                databases.forEach(db => {
+                    const option1 = new Option(db.label, db.value);
+                    dbSelect.appendChild(option1);
+                });
+            }
 
-        if (dbSelectForEmp) {
-            databases.forEach(db => {
-                const option2 = new Option(db.label, db.value);
-                dbSelectForEmp.appendChild(option2);
-            });
+            if (dbSelectForEmp) {
+                databases.forEach(db => {
+                    const option2 = new Option(db.label, db.value);
+                    dbSelectForEmp.appendChild(option2);
+                });
+            }
+        } catch (err) {
+            console.error('Error fetching databases:', err);
         }
     }
 
@@ -131,22 +125,36 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Pagination Setup
     function setupPagination(totalItems) {
         paginationControls.innerHTML = '';
+
         const totalPages = Math.ceil(totalItems / itemsPerPage);
 
-        // Curent page of Last page summary
+        const navWrapper = document.createElement('div');
+        navWrapper.classList.add('pagination-inner');
+        
+        const leftGroup = document.createElement('div');
+        leftGroup.classList.add('pagination-group');
+        if (currentPage > 1) {
+            leftGroup.appendChild(createPaginationButton('◀◀', () => goToPage(1)));
+            leftGroup.appendChild(createPaginationButton('◀', () => goToPage(currentPage -1)));
+        }
+
+        // Page summary in the middle
         const pageSummary = document.createElement('span');
         pageSummary.textContent = `Page ${currentPage} of ${totalPages}`;
-        paginationControls.appendChild(pageSummary);
+        pageSummary.classList.add('page-summary');
 
-        if (currentPage > 1) {
-            paginationControls.appendChild(createPaginationButton('<<', () => { goToPage(1); }));
-            paginationControls.appendChild(createPaginationButton('<', () => { goToPage(currentPage -1); }));
-        }
-
+        const rightGroup = document.createElement('div');
+        rightGroup.classList.add('pagination-group');
         if (currentPage < totalPages) {
-            paginationControls.appendChild(createPaginationButton('>', () => { goToPage(currentPage + 1); }));
-            paginationControls.appendChild(createPaginationButton('>>', () => { goToPage(totalPages); }));
+            rightGroup.appendChild(createPaginationButton('▶', () => goToPage(currentPage + 1)));
+            rightGroup.appendChild(createPaginationButton('▶▶', () => goToPage(totalPages)));
         }
+
+        // Append in proper order
+        navWrapper.appendChild(leftGroup);
+        navWrapper.appendChild(pageSummary);
+        navWrapper.appendChild(rightGroup);
+        paginationControls.appendChild(navWrapper);
     }
         
     function createPaginationButton(text, onClick) {

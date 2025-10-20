@@ -1,4 +1,8 @@
-/* styles.css */
+/* /assets/css/styles.css */
+
+/* ==============================
+   GLOBAL STYLES & RESETS
+============================== */
 
 *,
 *::before,
@@ -17,14 +21,6 @@ html, body {
     flex-direction: column;
 }
 
-input, select, button {
-    font-family: inherit;
-}
-
-button {
-    cursor: pointer;
-}
-
 a {
     text-decoration: none;
     color: inherit;
@@ -36,8 +32,16 @@ ul {
     padding: 0;
 }
 
+input, select, button {
+    font-family: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
 i {
-    margin-right: 0.2rem;
+    margin-right: 0.25rem;
 }
 
 .content-wrapper {
@@ -47,10 +51,17 @@ i {
     padding: 0 1rem;
 }
 
-/* HEADER */
+main {
+    flex: 1;
+}
+
+/* ==============================
+   HEADER
+============================== */
+
 .main-header {
     background-color: #282c34;
-    color: white;
+    color: #fff;
     position: sticky;
     top: 0;
     z-index: 10;
@@ -79,6 +90,7 @@ i {
     font-weight: 500;
 }
 
+/* --- Avatar Menu --- */
 .avatar-menu {
     position: relative;
 }
@@ -87,8 +99,8 @@ i {
     width: 36px;
     height: 36px;
     border-radius: 50%;
-    cursor: pointer;
     border: 2px solid #fff;
+    cursor: pointer;
 }
 
 .avatar-menu .dropdown {
@@ -96,7 +108,7 @@ i {
     position: absolute;
     right: 0;
     top: 45px;
-    background-color: white;
+    background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
@@ -119,7 +131,6 @@ i {
     color: #333;
     font-size: 0.9rem;
     cursor: pointer;
-    text-decoration: none;
 }
 
 .avatar-menu .dropdown a:hover,
@@ -127,7 +138,10 @@ i {
     background-color: #f0f0f0;
 }
 
-/* NAVIGATION */
+/* ==============================
+   NAVIGATION
+============================== */
+
 .navmenu {
     background-color: #f8f9fa;
     border-bottom: 1px solid #ddd;
@@ -139,10 +153,11 @@ i {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 2rem;
     flex-wrap: wrap;
+    gap: 2rem;
 }
 
+/* Dropdown navigation */
 .navmenu .dropdown {
     position: relative;
     white-space: nowrap;
@@ -153,14 +168,15 @@ i {
 .navmenu .dropbtn {
     display: flex;
     align-items: center;
+    gap: 0.4rem;
     padding: 0.5rem;
     background: none;
     border: none;
     color: inherit;
     font: inherit;
     cursor: pointer;
-    gap: 0.4rem;
     transition: background-color 0.2s ease;
+    border-radius: 4px;
 }
 
 .navmenu a:hover,
@@ -168,20 +184,19 @@ i {
 .navmenu .dropbtn:hover {
     background-color: #007bff;
     color: #fff;
-    border-radius: 4px;
 }
 
 .navmenu .dropdown-content {
     display: none;
     position: absolute;
-    left: 0;
     top: 100%;
+    left: 0;
     min-width: 200px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
-    z-index: 1000;
-    border-radius: 4px;
     margin-left: 1.5rem;
+    background-color: #fff;
+    border-radius: 4px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
 }
 
 .navmenu .dropdown:hover .dropdown-content {
@@ -193,7 +208,10 @@ i {
     padding: 0.6rem 1rem;
 }
 
-/* BREADCRUMB */
+/* ==============================
+   BREADCRUMB
+============================== */
+
 .breadcrumb {
     padding: 0.75rem 1rem;
     font-size: 0.9rem;
@@ -208,8 +226,6 @@ i {
 .breadcrumb ul {
     display: flex;
     gap: 0.5rem;
-    margin: 0;
-    padding: 0;
 }
 
 .breadcrumb ul li {
@@ -222,25 +238,10 @@ i {
     color: #999;
 }
 
-main {
-    flex: 1;
-}
+/* ==============================
+   DRAWER
+============================== */
 
-/* FOOTER */
-#footer {
-    background-color: #f1f1f1;
-    padding: 10px;
-    color: #555;
-    border-top: 1px solid #ddd;
-    text-align: center;
-    width: 100%;
-}
-
-#footer p {
-    margin: 0;
-}
-
-/* DRAWER */
 .drawer {
     position: fixed;
     top: 0;
@@ -258,19 +259,19 @@ main {
 }
 
 .drawer-content {
-    padding: 20px;
-    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+    height: 100%;
+    padding: 20px;
 }
 
 .close-btn {
+    align-self: flex-end;
     background: none;
     border: none;
     font-size: 1.5rem;
     cursor: pointer;
-    align-self: flex-end;
     margin-bottom: 1rem;
 }
 
@@ -295,20 +296,87 @@ main {
 
 .drawer-links a,
 .drawer-links button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 0.5rem 0;
     background: none;
     border: none;
     color: #333;
     font-size: 1rem;
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    width: 100%;
     text-align: left;
-    padding: 0.5rem 0;
+    transition: color 0.2s ease;
 }
 
 .drawer-links a:hover,
 .drawer-links button:hover {
     color: #007bff;
+}
+
+/* ==============================
+   FOOTER
+============================== */
+
+#footer {
+    background-color: #f1f1f1;
+    color: #555;
+    text-align: center;
+    border-top: 1px solid #ddd;
+    padding: 10px;
+    width: 100%;
+}
+
+#footer p {
+    margin: 0;
+}
+
+/* ==============================
+   REUSABLE MODAL
+============================== */
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(2px);
+} 
+
+.modal-content {
+    background-color: #fff;
+    margin: 5% auto;
+    padding: 20px 30px;
+    border-radius: 10px;
+    width: 500px;
+    max-width: 90%;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    animation: slideIn 0.3s ease-out;
+}
+
+.close-btn {
+    float: right;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.close-btn:hover {
+  color: red;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }

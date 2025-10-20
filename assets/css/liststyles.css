@@ -1,91 +1,176 @@
-/* EMPLOYEE LIST */
-/* Selection from Detachment and Employee List */
+/* /assets/css/liststyles.css */
+
+/* ===========================================
+   Detachments & Employee List Page Styles
+   =========================================== */
+
+/* Container for selection + search */
 .menu {
-    width: 90vw;
-    margin: 0 auto;
+    width: 90%;
+    max-width: 1200px;
+    margin: 20px auto;
     display: flex;
-    justify-content: space-evenly;
-    margin-bottom: 15px;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 1rem;
+    background: #fff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* Left: DB selection */
+.selection label,
+.searching label {
+    font-weight: 600;
+    margin-right: 8px;
+    color: #333;
 }
 
 #dbSelect {
-    font-size: .8rem;
-    background-color: white;
+    font-size: 0.9rem;
+    background-color: #fff;
     width: 200px;
+    padding: 6px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
 }
 
 #fetchDB {
-    background-color: #f0f0f0;
-    border: 1px solid #ccc;
-    padding: 2px 20px;
+    background-color: #007bff;
+    border: 1px solid #007bff;
+    color: #fff;
+    padding: 6px 20px;
     cursor: pointer;
-    border-radius: 3px;
-    transition: background-color 0.3s ease;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    margin-left: 8px;
 }
 
 #fetchDB:hover {
-    background-color: #007bff;
-    color: white;
+    background-color: #0056b3;
 }
 
-.selection {
-    text-align: start;
+/* Right: Search box */
+.searching {
+    display: flex;
+    align-items: center;
 }
 
-.searching #searchInput {
-    width: 200px;
+#searchInput {
+    width: 220px;
+    padding: 6px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 0.9rem;
 }
+
+#searchInput:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 4px rgba(0, 123, 255, 0.3);
+}
+
+/* ===========================================
+   Table Styles
+   =========================================== */
 
 table {
-    width: 90vw;
-    margin: 20px auto;
-    table-layout: fixed;
+    width: 90%;
+    max-width: 1200px;
+    margin: 25px auto;
     border-collapse: collapse;
-}
-
-th:nth-child(1),
-td:nth-child(1) {
-    width: 150px;
-}
-
-th:nth-child(3),
-td:nth-child(3) {
-    width: 150px;
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 th,
 td {
-    border: 1px solid #ccc;
-    padding: 8px;
+    border-bottom: 1px solid #eee;
+    padding: 10px 15px;
     text-align: left;
-    border-bottom: 1px solid #ddd;
+    font-size: 0.9rem;
 }
 
 th {
-    background-color: #f2f2f2;
+    background-color: #f8f9fa;
+    font-weight: 600;
+    color: #333;
+}
+
+/* Column widths */
+th:nth-child(1),
+td:nth-child(1),
+th:nth-child(3),
+td:nth-child(3) {
+    width: 150px;
+    white-space: nowrap;
+}
+
+
+/* ===========================================
+   Pagination Controls
+   =========================================== */
+
+.pagination-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 25px 0 50px;
+    gap: 0.5rem;
+}
+
+.pagination-inner {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background-color: #fafafa;
+    border: 1px solid #e5e5e5;
+    padding: 8px 16px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.pagination-group {
+    display: flex;
+    gap: 0.25rem;
 }
 
 .pagination-button {
-    margin: 0 5px;
-    padding: 5px 10px;
-    cursor: pointer;
-    background-color: #f0f0f0;
     border: 1px solid #ccc;
-    border-radius: 3px;
-    transition: background-color 0.3s ease;
+    background-color: #fff;
+    color: #333;
+    padding: 4px 8px;
+    font-size: 0.85rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-width: 32px;
+    text-align: center;
 }
 
 .pagination-button:hover {
     background-color: #007bff;
-    color: white;
+    color: #fff;
+    border-color: #007bff;
 }
 
 .pagination-button.active {
-    font-weight: bold;
     background-color: #007bff;
     color: white;
+    border-color: #007bff;
+    font-weight: bold;
 }
 
-.menu span {
-    margin: 0 5px;
+.page-summary {
+    font-weight: 600;
+    color: #333;
+    font-size: 0.9rem;
+    min-width: 120px;
+    text-align: center;
 }

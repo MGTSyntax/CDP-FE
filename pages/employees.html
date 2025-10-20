@@ -6,81 +6,69 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CDP - Employee Masterlist</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="/assets/css/styles.css">
+    <link rel="stylesheet" href="/assets/css/liststyles.css" />
 </head>
 
 <body>
-    <header>
-        <h1>Employee Masterlist</h1>
-    </header>
-    <div class="layout-container">
-        <div class="navmenu" id="navMenu">
-            <a href="/pages/profile.html">Profile</a>
-            <a href="/pages/employees.html">Employees</a>
-            <a href="/pages/detachments.html">Detachments</a>
-            <button id="logoutBtn">Logout</button>
+    <div class="navmenu">
+        <div class="content-wrapper">
+            <div id="navMenu"></div>
         </div>
-        <main>
-            <div class="menu">
+    </div>
+
+    <main class="employee-page">
+        <div class="content-wrapper">
+            <section class="menu">
                 <div class="selection">
                     <label for="dbSelectforEmp">Select Database:</label>
                     <select id="dbSelectforEmp"></select>
-                    <button id="fetchDBforEmp">View</button>
+                    <button id="fetchDBforEmp"><i class="fa-solid fa-database"></i>View</button>
                 </div>
-            </div>
 
-            <div class="tabs">
-                <button class="tab-button" onclick="showTab(1)">Tab 1 - Basic Info</button>
-                <button class="tab-button" onclick="showTab(2)">Tab 1 - Personal Info</button>
-            </div>
+                <div class="searching">
+                    <label for="searchInput">Search:</label>
+                    <input type="text" id="searchInput" placeholder="Search employee...">
+                </div>
+            </section>
 
-            <!-- Basic Information -->
-            <div id="tab1" class="tab-content">
+            <table id="employeesTable">
+                <thead>
+                    <tr>
+                        <th>Employee No</th>
+                        <th>First Name</th>
+                        <th>Middle Name</th>
+                        <th>Last Name</th>
+                        <th>Ext.</th>
+                        <th>Department</th>
+                        <th>Detachment</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
 
-                <h2>Basic Information</h2>
-                <table id="basicInfoTable">
-                    <thead>
-                        <tr>
-                            <th>Employee Number</th>
-                            <th>Last Name</th>
-                            <th>First Name</th>
-                            <th>Middle Name</th>
-                            <th>Ext. Name</th>
-                            <th>Email Addres</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
+            <div id="paginationControls"></div>
+        </div>
+    </main>
 
-                <h2>Job Information</h2>
-                <table id="jobInfoTable">
-                    <thead>
-                        <tr>Division</tr>
-                        <tr>Department</tr>
-                        <tr>Detachment</tr>
-                        <tr>Position</tr>
-                        <tr>Job Status</tr>
-                        <tr>Date Hired</tr>
-                        <tr>Secu. Lic. Issuance Date</tr>
-                        <tr>Secu. Lic. Expiration Date</tr>
-                        <tr>Deactivation Date</tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
-            </div>
-
-            <!-- Personal Information -->
-            <div id="tab2" class="tab-content">
-
-            </div>
-        </main>
+    <!-- Modal for Employee Details -->
+    <div id="employeeModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" id="closeModal">&times;</span>
+            <h2>Employee Details</h2>
+            <div id="employeeDetails"></div>
+        </div>
     </div>
+
     <footer id="footer"></footer>
 
-    <script type="module" src="/assets/js/profile.js"></script>
+    <script type="module" src="/assets/js/statics/header.js"></script>
+    <script type="module" src="/assets/js/statics/footer.js"></script>
     <script type="module" src="/assets/js/api.js"></script>
     <script type="module" src="/assets/js/script.js"></script>
-    <script src="/assets/js/footer.js"></script>
+    <script id="FwkBlq1Gu5pojtB51jK5r" src="https://www.chatbase.co/embed.min.js"></script>
 </body>
 
 </html>
