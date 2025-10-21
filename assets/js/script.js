@@ -1,22 +1,19 @@
 // /assets/js/script.js
-import { getDatabases, getDepartments, getEmployees } from './api.js';
+import { getDatabases, getDepartments } from './api.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
-    // For detachments
     const dbSelect = document.querySelector('#dbSelect');
     const viewDataBtn = document.querySelector('#fetchDB');
-
-    let detachmentsData = [];
-    const detachmentsCol = ['dept_code', 'dept_name', 'sec_code', 'sec_name'];
-
     const tableBody = document.querySelector('#departmentsTable tbody');
     const searchInput = document.querySelector('#searchInput');
     const paginationControls = document.querySelector('#paginationControls');
 
+    let detachmentsData = [];
     let currentPage = 1;
     let currentData = [];
     let currentColumns = [];
     let itemsPerPage = getItemsPerPage();
+    const detachmentsCol = ['dept_code', 'dept_name', 'sec_code', 'sec_name'];
 
     function getItemsPerPage() {
         const screenHeight = window.innerHeight;
@@ -32,16 +29,9 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (!databases?.length) return;
 
             if (dbSelect) {
-                databases.forEach(db => {
+                databases.forEach((db) => {
                     const option1 = new Option(db.label, db.value);
                     dbSelect.appendChild(option1);
-                });
-            }
-
-            if (dbSelectForEmp) {
-                databases.forEach(db => {
-                    const option2 = new Option(db.label, db.value);
-                    dbSelectForEmp.appendChild(option2);
                 });
             }
         } catch (err) {
@@ -70,24 +60,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             searchInput.value = '';
         });
     }
-
-    // Click View Button to Fetch Employees from Backend API
-    if (viewDataBtnforEmp) {
-        viewDataBtnforEmp.addEventListener('click', async () => {
-            const selectedDbEmp = dbSelectForEmp.value;
-            if (!selectedDbEmp) {
-                alert('Please select database.');
-                return;
-            }
-
-            employeeData = await getEmployees(selectedDbEmp);
-            currentData = employeeData;
-            currentColumns = employeesCol;
-            currentPage = 1;
-            renderTable();
-            setupPagination(employeeData.length);
-        });
-    }
     
     // Search results
     searchInput.value = '';
@@ -111,7 +83,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const pageData = data.slice(startIndex, endIndex);
 
         if (pageData.length === 0) {
-            tableBody.innerHTML = '<td colspan="4">No results found.</td>';
+            tableBody.innerHTML = '<tr><td colspan="8">No results found.</td></tr>';
             return;
         }
 
