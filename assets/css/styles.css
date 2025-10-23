@@ -339,44 +339,100 @@ main {
 .modal {
     display: none;
     position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(2px);
+    z-index: 2000;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(4px);
+    overflow-y: auto;
 } 
 
 .modal-content {
-    background-color: #fff;
-    margin: 5% auto;
-    padding: 20px 30px;
-    border-radius: 10px;
-    width: 500px;
-    max-width: 90%;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-    animation: slideIn 0.3s ease-out;
+    background: var(--card-bg, #fff);
+    color: var(--text-color, #222);
+    margin: 3% auto;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 800px;
+    padding: 2rem;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    animation: fadeIn 0.25s ease;
+}
+
+.modal-content h2 {
+    margin-top: 0;
+    color: var(--accent-color, #007bff);
 }
 
 .close-btn {
     float: right;
-    font-size: 24px;
+    font-size: 1.5rem;
     cursor: pointer;
+    color: var(--text-muted, #666);
 }
 
 .close-btn:hover {
-  color: red;
+  color: var(--accent-color, red);
 }
 
-@keyframes slideIn {
+.modal-actions  {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.print-btn {
+    background: #3498db;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.print-btn:hover {
+    background: #2c80ba;
+}
+
+@keyframes fadeIn {
   from {
-    transform: translateY(-30px);
     opacity: 0;
+    transform: translateY(-10px);
   }
   to {
-    transform: translateY(0);
     opacity: 1;
+    transform: translateY(0);
   }
+}
+
+@media (prefers-color-scheme: dark) {
+  .modal-content {
+    background: #1f1f1f;
+    color: #eee;
+  }
+}
+
+@media print {
+    .modal,
+    .close-btn,
+    .print-btn {
+        display: none;
+    }
+
+    body * {
+        visibility: hidden;
+    }
+
+    #employeeDetails,
+    #employeeDetails * {
+        visibility: visible;
+    }
+
+    #employeeDetails {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+    }
 }

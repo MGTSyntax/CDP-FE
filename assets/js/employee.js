@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const modal = document.querySelector("#employeeModal");
     const modalDetails = document.querySelector("#employeeDetails");
     const closeModalBtn = document.querySelector("#closeModal");
+    const printProfileBtn = document.getElementById("printProfileBtn");
 
     let employeesData = [];
     let filteredData = [];
@@ -104,6 +105,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 if (!emp) return alert("Employee not found.");
 
                 const db = dbSelect.value;
+
                 const fullProfile = await getEmpProfile(db, empNo);
                 showEmployeeModal(emp, fullProfile);
             })
@@ -151,51 +153,87 @@ document.addEventListener("DOMContentLoaded", async () => {
         const disciplinary = fullProfile.disciplinaryInfo || {};
         const compensation = fullProfile.compensationInfo || {};
 
+        const safe = (val) => val || "-";
+
         modalDetails.innerHTML = `
         <h2>${basic.ji_fname || emp.ji_fname} ${basic.ji_mname || emp.ji_mname || ""} ${basic.ji_lname || emp.ji_lname}</h2>
         <p><strong>Employee No:</strong> ${basic.ji_empNo || emp.ji_empNo}</p>
 
         <hr><h3>📋 Basic Information</h3>
-        <p><strong>Name:</strong> ${basic.ji_fname || ""} ${basic.ji_mname || ""} ${basic.ji_lname || ""} ${basic.ji_extname || ""}</p>
-        <p><strong>Birthdate:</strong> ${personal.ji_birthdate || "—"}</p>
-        <p><strong>Address:</strong> ${personal.pi_add || "—"}</p>
-        <p><strong>Contact No:</strong> ${personal.ji_contact || "—"}</p>
+        <p><strong>Birthdate:</strong> ${safe(personal.pi_dbirth)}</p>
+        <p><strong>Address:</strong> ${safe(personal.pi_add)}</p>
+        <p><strong>Contact No:</strong> ${safe(personal.pi_tel)}</p>
+        <p><strong>Nationality:</strong> ${safe(personal.pi_nationality)}</p>
+        <p><strong>Civil Status:</strong> ${safe(personal.pi_cstatus)}</p>
 
         <hr><h3>🏢 Job Information</h3>
-        <p><strong>Department:</strong> ${job.ji_dept || emp.assignment || "—"}</p>
-        <p><strong>Detachment:</strong> ${job.ji_sec || emp.detachment || "—"}</p>
-        <p><strong>Position:</strong> ${job.ji_position || "—"}</p>
-        <p><strong>Date Hired:</strong> ${job.ji_date_hired || "—"}</p>
+        <p><strong>Department:</strong> ${safe(job.ji_dept || emp.assignment)}</p>
+        <p><strong>Detachment:</strong> ${safe(job.ji_sec || emp.detachment)}</p>
+        <p><strong>Position:</strong> ${safe(job.ji_pos)}</p>
+        <p><strong>Date Hired:</strong> ${safe(job.ji_dateHired)}</p>
 
         <hr><h3>🎓 Educational Background</h3>
-        <p><strong>School:</strong> ${educ.ji_school || "—"}</p>
-        <p><strong>Degree:</strong> ${educ.ji_course || "—"}</p>
+        <p><strong>School:</strong> ${safe(educ.educ_school)}</p>
+        <p><strong>Degree:</strong> ${safe(educ.educ_type)}</p>
 
         <hr><h3>📧 Email Address</h3>
-        <p><strong>Email:</strong> ${email.email_add || "—"}</p>
+        <p><strong>Email:</strong> ${safe(email.email_add)}</p>
 
         <hr><h3>🚨 Emergency Contact</h3>
-        <p><strong>Contact Name:</strong> ${emergency.ji_emergency_name || "—"}</p>
-        <p><strong>Contact Number:</strong> ${emergency.ji_emergency_contact || "—"}</p>
-
-        <hr><h3>👨‍👩‍👧 Family Info</h3>
-        <p><strong>Spouse:</strong> ${family.ji_spouse_name || "—"}</p>
-        <p><strong>Children:</strong> ${family.ji_children_name || "—"}</p>
+        <p><strong>Contact Name:</strong> ${safe(emergency.em_name)}</p>
+        <p><strong>Contact Number:</strong> ${safe(emergency.em_telno)}</p>
 
         <hr><h3>💼 Previous Employment</h3>
-        <p><strong>Company:</strong> ${pemp.ji_company_name || "—"}</p>
-        <p><strong>Position:</strong> ${pemp.ji_position || "—"}</p>
+        <p><strong>Company:</strong> ${safe(pemp.pe_comp)}</p>
+        <p><strong>Position:</strong> ${safe(pemp.pe_pos)}</p>
+        <p><strong>Reason for Leaving:</strong> ${safe(pemp.pe_rison)}</p>
 
-        <hr><h3>⚠️ Disciplinary Info</h3>
-        <p><strong>Remarks:</strong> ${disciplinary.da_remarks || "—"}</p>
-
-        <hr><h3>💰 Compensation Info</h3>
-        <p><strong>Basic Salary:</strong> ${compensation.ji_basic_salary || "—"}</p>
+        <hr><h3>💰 Account Numbers.</h3>
+        <p><strong>Bank Account No.:</strong> ${safe(compensation.comp_bank)}</p>
+        <p><strong>TIN:</strong> ${safe(personal.pi_tin)}</p>
+        <p><strong>SSS No.:</strong> ${safe(personal.pi_sssno)}</p>
+        <p><strong>Pagibig No.:</strong> ${safe(personal.pi_pagibig)}</p>
+        <p><strong>PHIC No.:</strong> ${safe(personal.pi_philhealth)}</p>
     `;
         modal.style.display = "block";
     }
 
     if (closeModalBtn) closeModalBtn.onclick = () => (modal.style.display = "none");
+
+    if (printProfileBtn) {
+        printProfileBtn.addEventListener("click", async () => {
+            const { jsPDF } = window.jspdf;
+            if (!modalDetails) return;
+
+            // Create a new PDF document
+            const pdf = new jsPDF("p", "pt", "a4");
+
+            // Add title
+            pdf.setFont("helvetica", "bold");
+            pdf.setFontSize(16);
+            pdf.text("Personnel 201 File", 40, 40);
+            pdf.setFontSize(11);
+            pdf.text("Employee Profile Summary", 40, 60);
+
+            // Convert HTML to PDF
+            await pdf.html(modalDetails, {
+                x: 40,
+                y: 80,
+                width: 520, // Adjust width for layout
+                windowWidth: 900,
+                autoPaging: "text",
+                html2canvas: {
+                    scale: 0.8, // Lower for faster render
+                    useCORS: true,
+                },
+                callback: function (doc) {
+                    const filename = `Personnel_${new Date().toISOString().split("T")[0]}.pdf`;
+                    doc.save(filename);
+                },
+            });
+        });
+    }
+
     window.onclick = (e) => {
         if (e.target === modal) modal.style.display = "none";
     };

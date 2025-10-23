@@ -57,8 +57,13 @@
     <!-- Modal for Employee Details -->
     <div id="employeeModal" class="modal">
         <div class="modal-content">
-            <span class="close-btn" id="closeModal">&times;</span>
-            <h2>Employee Details</h2>
+            <div class="modal-actions">
+                <button id="printProfileBtn" class="print-btn" title="Print or Export as PDF">
+                    🖨️ Print / Export
+                </button>
+                <span class="close-btn" id="closeModal" title="Close">&times;</span>
+            </div>
+            <h3>Employee Details</h3>
             <div id="employeeDetails"></div>
         </div>
     </div>
@@ -68,6 +73,10 @@
     <script type="module" src="/assets/js/statics/header.js"></script>
     <script type="module" src="/assets/js/statics/footer.js"></script>
     <script type="module" src="/assets/js/api.js"></script>
+    <!-- html2canvas (required by jsPDF.html) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <!-- jsPDF with HTML plugin -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script type="module" src="/assets/js/employee.js"></script>
     <script id="FwkBlq1Gu5pojtB51jK5r" src="https://www.chatbase.co/embed.min.js"></script>
 </body>
