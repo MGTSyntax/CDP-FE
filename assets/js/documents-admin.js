@@ -14,8 +14,6 @@ const userInfo = JSON.parse(localStorage.getItem("userInfo")) || {};
 const selectedDb = userInfo.database || "file_metadata";
 const userLevel = Number(userInfo.userLevel);
 
-console.log(userInfo.userLevel);
-
 const allowedPermissions = {
     ANL: [1, 3],
     FINANCE: [1, 5],
@@ -229,3 +227,6 @@ docsUpload.addEventListener("change", async (e) => {
    Init
 ------------------- */
 loadDepartmentFolders();
+
+documentList.innerHTML = `<p class="no-docs">Select a department to view documents.</p>`;
+uploadBox.style.display = "none";

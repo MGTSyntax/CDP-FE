@@ -9,7 +9,7 @@
     <title>CDP - Dashboard</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    
+
     <link rel="stylesheet" href="/assets/css/styles.css">
     <link rel="stylesheet" href="/assets/css/dashboard.css">
     <link rel="icon" href="data:,">
@@ -21,15 +21,16 @@
             <div id="navMenu"></div>
         </div>
     </div>
-    
+
     <main class="dashboard-content">
         <div class="content-wrapper dashboard-container">
+
+            <!-- Greeting & Profile -->
             <section class="top-profile">
                 <div class="top-profile-design">
                     <div class="greeting">
                         <h2>Magandang araw Ka-MIB!</h2>
-                        <p>We are thrilled to present to you our Company Portal designed with you in mind.<br>Experience a
-                            seamless journey as you access your employee information and more.</p>
+                        <p>Welcome to your Company Portal — designed to keep you connected and informed.</p>
                     </div>
                     <img src="/assets/images/mibBanner.png" alt="Banner" class="banner-img">
                 </div>
@@ -46,6 +47,7 @@
                 </div>
             </section>
 
+            <!-- Summary Cards -->
             <section class="dashboardMenu">
                 <div class="card">
                     <h2>Total Employees</h2>
@@ -60,11 +62,52 @@
                     <p id="pendingRequests">--</p>
                 </div>
             </section>
+
+            <!-- Quick Actions -->
+            <section class="quick-actions">
+                <h3>Quick Actions</h3>
+                <div class="action-grid">
+                    <button><i class="fa-solid fa-user"></i> My Profile</button>
+                    <button><i class="fa-solid fa-folder-open"></i> View Documents</button>
+                    <button><i class="fa-solid fa-paper-plane"></i> Submit Request</button>
+                    <button><i class="fa-solid fa-clock-rotate-left"></i> Request History</button>
+                </div>
+            </section>
+
+            <!-- Announcements -->
+            <section class="announcements">
+                <h3>Latest Announcements</h3>
+                <ul>
+                    <li><strong>Oct 28:</strong> Payroll processing will be on Oct 30.</li>
+                    <li><strong>Oct 25:</strong> New uniform policy announced for field employees.</li>
+                    <li><strong>Oct 22:</strong> Team building event photos uploaded!</li>
+                </ul>
+            </section>
+
+            <!-- Overview Chart -->
+            <section class="activity-overview">
+                <h3>Activity Overview</h3>
+                <canvas id="activityChart"></canvas>
+            </section>
+
+            <!-- Employee Spotlight -->
+            <section class="spotlight">
+                <h3>Employee Spotlight</h3>
+                <div class="spotlight-card">
+                    <img src="/assets/images/profile-avatar.jpg" alt="Employee of the Month">
+                    <div>
+                        <h4>Jane Dela Cruz</h4>
+                        <p>“Going the extra mile for our clients every day.”</p>
+                    </div>
+                </div>
+            </section>
+
         </div>
     </main>
 
     <footer id="footer"></footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script type="module" src="/assets/js/statics/header.js"></script>
     <script type="module" src="/assets/js/dashboard.js"></script>
     <script type="module" src="/assets/js/statics/footer.js"></script>

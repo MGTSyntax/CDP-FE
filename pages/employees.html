@@ -56,14 +56,17 @@
 
     <!-- Modal for Employee Details -->
     <div id="employeeModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-actions">
-                <button id="printProfileBtn" class="print-btn" title="Print or Export as PDF">
-                    🖨️ Print / Export
-                </button>
-                <span class="close-btn" id="closeModal" title="Close">&times;</span>
+        <div class="modal-content employee-modal">
+            <div class="modal-header">
+                <h2>Employee Profile Summary</h2>
+                <div class="modal-header-actions">
+                    <button id="printProfileBtn" class="print-btn" title="Print or Export as PDF">
+                        <i class="fa-solid fa-print"></i> Print / Export
+                    </button>
+                    <button id="closeModal" class="close-btn" title="Close">&times;</button>
+                </div>
             </div>
-            <h3>Employee Details</h3>
+
             <div id="employeeDetails"></div>
         </div>
     </div>

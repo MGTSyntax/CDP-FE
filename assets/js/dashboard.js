@@ -1,9 +1,28 @@
 // /assets/js/dashboard.js
 import { getEmpProfile } from "./api.js";
+import Chart from "https://cdn.jsdelivr.net/npm/chart.js";
 
 document.addEventListener('DOMContentLoaded', () => {
+    
     // Get top profile record
     loadProfile();
+
+    const ctx = document.getElementById('activityChart');
+    if (ctx) {
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr'],
+                datasets: [{
+                    label: 'Request',
+                    data: [12, 19, 8, 15],
+                    borderWidth: 1,
+                    backgroundColor: 'rgba(0, 123, 255, 0.5)'
+                }]
+            },
+            options: { responsive: true, maintainAspectRatio: false }
+        });
+    }
 });
 
 async function loadProfile() {

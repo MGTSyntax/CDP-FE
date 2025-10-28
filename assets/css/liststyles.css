@@ -133,7 +133,7 @@ td:nth-child(3) {
     border: 1px solid #e5e5e5;
     padding: 8px 16px;
     border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 }
 
 .pagination-group {
@@ -173,4 +173,190 @@ td:nth-child(3) {
     font-size: 0.9rem;
     min-width: 120px;
     text-align: center;
+}
+
+/* ==============================
+   EMPLOYEE MODAL
+============================== */
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(4px);
+    overflow-y: auto;
+}
+
+.modal-content {
+    background: var(--card-bg, #fff);
+    color: var(--text-color, #222);
+    margin: 3% auto;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 800px;
+    padding: 2rem;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    animation: fadeIn 0.25s ease;
+}
+
+.close-btn {
+    float: right;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--text-muted, #666);
+}
+
+.close-btn:hover {
+    color: var(--accent-color, red);
+}
+
+.print-btn {
+    background: #3498db;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.print-btn:hover {
+    background: #2c80ba;
+}
+
+.employee-modal {
+    padding: 0;
+    overflow: hidden;
+}
+
+.employee-modal .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #007bff;
+    color: white;
+    padding: 1rem 1.5rem;
+    border-radius: 12px 12px 0 0;
+}
+
+.modal-header h3 {
+    font-size: 1.25rem;
+    margin: 0;
+}
+
+.modal-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.employee-details {
+    padding: 1.5rem;
+    background: var(--card-bg, #fff);
+}
+
+/* Two-column layout for sections */
+.employee-section {
+    background: #f9f9f9;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    border-radius: 8px;
+    transition: background 0.3s ease;
+}
+
+.employee-section:hover {
+    background: #f1f5ff;
+}
+
+.employee-section h3 {
+    margin-top: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    font-size: 1rem;
+    color: #007bff;
+}
+
+.section-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem 1rem;
+    margin-top: 0.5rem;
+}
+
+.section-content p {
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+.section-content strong {
+    color: #fff;
+}
+
+.employee-section.collapsed .section-content {
+    display: none;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    .modal-content {
+        background-color: #1f1f1f;
+        color: #eee;
+    }
+
+    .employee-modal .modal-header {
+        background: #0056b3;
+        color: #fff;
+    }
+
+    .employee-section {
+        background: #2b2b2b;
+        border: 1px solid #444;
+    }
+
+    .employee-section:hover {
+        background: #333;
+    }
+
+    .employee-section h3 {
+        color: #5ea0ff;
+    }
+}
+
+@media print {
+    body {
+        background: white;
+    }
+
+    .modal,
+    .close-btn,
+    .print-btn {
+        display: none;
+    }
+
+    #employeeDetails {
+        display: block;
+        position: static;
+        width: 100%;
+    }
+
+    .employee-section {
+        page-break-inside: avoid;
+        border: 1px solid #ccc;
+    }
 }

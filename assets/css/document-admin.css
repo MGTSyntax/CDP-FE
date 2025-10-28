@@ -168,6 +168,7 @@
 
 /* Upload Box */
 .upload-box {
+    display: none;
     border: 2px dashed #007bff;
     border-radius: 10px;
     padding: 20px;

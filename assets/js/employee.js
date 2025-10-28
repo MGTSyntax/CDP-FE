@@ -1,5 +1,5 @@
 // /assets/js/employee.js
-import { getDatabases, getEmployees, getEmpProfile } from "./api.js";
+import { getDatabases, getEmployees, getEmpProfile, logout } from "./api.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
     const dbSelect = document.querySelector('#dbSelectEmp');
@@ -19,6 +19,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     let currentPage = 1;
     const itemsPerPage = getItemsPerPage();
     const currentColumns = ['ji_empNo', 'ji_fname', 'ji_mname', 'ji_lname', 'ji_extname', 'assignment', 'detachment'];
+
+    let currentEmp = null;
+    let currentFullProfile = null;
+    let currentFullName = "";
 
     function getItemsPerPage() {
         const h = window.innerHeight;
@@ -148,53 +152,101 @@ document.addEventListener("DOMContentLoaded", async () => {
         const educ = fullProfile.educInfo || {};
         const email = fullProfile.emailaddInfo || {};
         const emergency = fullProfile.emergencyInfo || {};
-        const family = fullProfile.familyInfo || {};
         const pemp = fullProfile.pempInfo || {};
-        const disciplinary = fullProfile.disciplinaryInfo || {};
         const compensation = fullProfile.compensationInfo || {};
+        const family = fullProfile.familyInfo || {};
+        const disciplinary = fullProfile.disciplinaryInfo || {};
 
         const safe = (val) => val || "-";
+        const fullName = `${basic.ji_fname || emp.ji_fname || ""} ${basic.ji_mname || emp.ji_mname || ""} ${basic.ji_lname || emp.ji_lname || ""}`.trim();
 
-        modalDetails.innerHTML = `
-        <h2>${basic.ji_fname || emp.ji_fname} ${basic.ji_mname || emp.ji_mname || ""} ${basic.ji_lname || emp.ji_lname}</h2>
-        <p><strong>Employee No:</strong> ${basic.ji_empNo || emp.ji_empNo}</p>
+        currentEmp = emp;
+        currentFullProfile = fullProfile;
+        currentFullName = fullName;
 
-        <hr><h3>📋 Basic Information</h3>
-        <p><strong>Birthdate:</strong> ${safe(personal.pi_dbirth)}</p>
-        <p><strong>Address:</strong> ${safe(personal.pi_add)}</p>
-        <p><strong>Contact No:</strong> ${safe(personal.pi_tel)}</p>
-        <p><strong>Nationality:</strong> ${safe(personal.pi_nationality)}</p>
-        <p><strong>Civil Status:</strong> ${safe(personal.pi_cstatus)}</p>
+        const sections = [
+            {
+                title: "📋 Basic Information",
+                fields: {
+                    "Employee No": basic.ji_empNo || emp.ji_empNo,
+                    "Full Name": fullName,
+                    "Birthdate": safe(personal.pi_dbirth),
+                    "Address": safe(personal.pi_add),
+                    "Contact No": safe(personal.pi_tel),
+                    "Nationality": safe(personal.pi_nationality),
+                    "Civil Status": safe(personal.pi_cstatus)
+                },
+            },
+            {
+                title: "🏢 Job Information",
+                fields: {
+                    "Department": safe(job.ji_dept || emp.assignment),
+                    "Detachment": safe(job.ji_sec || emp.detachment),
+                    "Position": safe(job.ji_pos),
+                    "Date Hired": safe(job.ji_dateHired),
+                },
+            },
+            {
+                title: "🎓 Educational Background",
+                fields: {
+                    "School": safe(educ.educ_school),
+                    "Degree": safe(educ.educ_type),
+                },
+            },
+            {
+                title: "📧 Email Address",
+                fields: {
+                    "Email": safe(email.email_add),
+                },
+            },
+            {
+                title: "🚨 Emergency Contact",
+                fields: {
+                    "Contact Name": safe(emergency.em_name),
+                    "Contact Number": safe(emergency.em_telno),
+                },
+            },
+            {
+                title: "💼 Previous Employment",
+                fields: {
+                    "Company": safe(pemp.pe_comp),
+                    "Position": safe(pemp.pe_pos),
+                    "Reason for Leaving": safe(pemp.pe_rison),
+                },
+            },
+            {
+                title: "💰 Account & Government Numbers",
+                fields: {
+                    "Bank Account": safe(compensation.comp_bank),
+                    "TIN": safe(personal.pi_tin),
+                    "SSS": safe(personal.pi_sssno),
+                    "Pagibig": safe(personal.pi_pagibig),
+                    "PHIC": safe(personal.pi_philhealth),
+                },
+            },
+        ];
 
-        <hr><h3>🏢 Job Information</h3>
-        <p><strong>Department:</strong> ${safe(job.ji_dept || emp.assignment)}</p>
-        <p><strong>Detachment:</strong> ${safe(job.ji_sec || emp.detachment)}</p>
-        <p><strong>Position:</strong> ${safe(job.ji_pos)}</p>
-        <p><strong>Date Hired:</strong> ${safe(job.ji_dateHired)}</p>
+        modalDetails.innerHTML = sections.map((sec, i) => `
+            <div class="employee-section" data-index="${i}">
+                <h3>${sec.title} <i class="fa-solid fa-chevron-up"></i></h3>
+                <div class="section-content">
+                    ${Object.entries(sec.fields)
+                .map(([label, val]) => `<p><strong>${label}:</strong> ${val}</p>`)
+                .join("")}
+                </div>
+            </div>
+        `).join("");
 
-        <hr><h3>🎓 Educational Background</h3>
-        <p><strong>School:</strong> ${safe(educ.educ_school)}</p>
-        <p><strong>Degree:</strong> ${safe(educ.educ_type)}</p>
+        modalDetails.querySelectorAll(".employee-section h3").forEach((header) => {
+            header.addEventListener("click", () => {
+                const section = header.parentElement;
+                section.classList.toggle("collapsed");
+                const icon = header.querySelector("i");
+                icon.classList.toggle("fa-chevron-up");
+                icon.classList.toggle("fa-chevron-down");
+            });
+        });
 
-        <hr><h3>📧 Email Address</h3>
-        <p><strong>Email:</strong> ${safe(email.email_add)}</p>
-
-        <hr><h3>🚨 Emergency Contact</h3>
-        <p><strong>Contact Name:</strong> ${safe(emergency.em_name)}</p>
-        <p><strong>Contact Number:</strong> ${safe(emergency.em_telno)}</p>
-
-        <hr><h3>💼 Previous Employment</h3>
-        <p><strong>Company:</strong> ${safe(pemp.pe_comp)}</p>
-        <p><strong>Position:</strong> ${safe(pemp.pe_pos)}</p>
-        <p><strong>Reason for Leaving:</strong> ${safe(pemp.pe_rison)}</p>
-
-        <hr><h3>💰 Account Numbers.</h3>
-        <p><strong>Bank Account No.:</strong> ${safe(compensation.comp_bank)}</p>
-        <p><strong>TIN:</strong> ${safe(personal.pi_tin)}</p>
-        <p><strong>SSS No.:</strong> ${safe(personal.pi_sssno)}</p>
-        <p><strong>Pagibig No.:</strong> ${safe(personal.pi_pagibig)}</p>
-        <p><strong>PHIC No.:</strong> ${safe(personal.pi_philhealth)}</p>
-    `;
         modal.style.display = "block";
     }
 
@@ -203,34 +255,155 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (printProfileBtn) {
         printProfileBtn.addEventListener("click", async () => {
             const { jsPDF } = window.jspdf;
-            if (!modalDetails) return;
-
-            // Create a new PDF document
             const pdf = new jsPDF("p", "pt", "a4");
 
-            // Add title
-            pdf.setFont("helvetica", "bold");
-            pdf.setFontSize(16);
-            pdf.text("Personnel 201 File", 40, 40);
-            pdf.setFontSize(11);
-            pdf.text("Employee Profile Summary", 40, 60);
+            // A4 dimensions
+            const margin = 50;
+            const pageWidth = pdf.internal.pageSize.getWidth();
+            const pageHeight = pdf.internal.pageSize.getHeight();
+            const contentWidth = pageWidth - margin * 2;
 
-            // Convert HTML to PDF
-            await pdf.html(modalDetails, {
-                x: 40,
-                y: 80,
-                width: 520, // Adjust width for layout
-                windowWidth: 900,
-                autoPaging: "text",
-                html2canvas: {
-                    scale: 0.8, // Lower for faster render
-                    useCORS: true,
-                },
-                callback: function (doc) {
-                    const filename = `Personnel_${new Date().toISOString().split("T")[0]}.pdf`;
-                    doc.save(filename);
-                },
+            const basic = currentFullProfile.basicInfo || {};
+            const personal = currentFullProfile.personalInfo || {};
+            const job = currentFullProfile.jobInfo || {};
+            const educ = currentFullProfile.educInfo || {};
+            const email = currentFullProfile.emailaddInfo || {};
+            const emergency = currentFullProfile.emergencyInfo || {};
+            const pemp = currentFullProfile.pempInfo || {};
+            const compensation = currentFullProfile.compensationInfo || {};
+
+            const empNo = basic.ji_empNo || currentEmp.ji_empNo || "-";
+            const fullName = `${basic.ji_fname || ""} ${basic.ji_mname || ""} ${basic.ji_lname || ""}`.trim();
+
+            let y = margin;
+
+            // try {
+            //     const logo = await fetch("/assets/images/mibLogo.png").then(res => res.blob());
+            //     const reader = new FileReader();
+            //     const logoData = await new Promise((resolve) => {
+            //         reader.onload = () => resolve(reader.result);
+            //         reader.readAsDataURL(logo);
+            //     });
+            //     pdf.addImage(logoData, "PNG", 40, 30, 60, 60);
+            // } catch {
+            //     console.warn("Logo not found or cannot be loaded.");
+            // }
+
+            // --- HEADER SECTION ---
+            pdf.setFont("helvetica", "bold");
+            pdf.setFontSize(18);
+            pdf.text("Employee 201 File", margin, y);
+            y += 16;
+            pdf.setFontSize(11);
+            pdf.setFont("helvetica", "normal");
+            pdf.text("Confidential HR Document", margin, y);
+            y += 25;
+
+            // --- SUMMARY BOX ---
+            pdf.setLineWidth(0.3);
+            pdf.roundedRect(margin, y, contentWidth, 55, 4, 4);
+            pdf.setFont("helvetica", "bold");
+            pdf.text("Name:", margin + 10, y + 20);
+            pdf.text("Employee No:", margin + 10, y + 40);
+
+            pdf.setFont("helvetica", "normal");
+            pdf.text(fullName, margin + 100, y + 20, { maxWidth: contentWidth - 120 });
+            pdf.text(empNo, margin + 100, y + 40);
+            y += 80;
+
+            // --- SECTION GENERATOR ---
+            const addSection = (title, fields) => {
+                if (y + 80 > pageHeight - margin) {
+                    pdf.addPage();
+                    y = margin;
+                }
+
+                pdf.setFont("helvetica", "bold");
+                pdf.setFontSize(13);
+                pdf.text(title, margin, y);
+                y += 8;
+                pdf.setDrawColor(100);
+                pdf.setLineWidth(0.5);
+                pdf.line(margin, y, pageWidth - margin, y);
+                y += 15;
+
+                pdf.setFont("helvetica", "normal");
+                pdf.setFontSize(11);
+
+                const labelWidth = 130;
+                const valueStart = margin + labelWidth + 10;
+                const lineHeight = 14;
+                const maxTextWidth = contentWidth - labelWidth - 20;
+
+                for (const [label, value] of Object.entries(fields)) {
+                    const wrapped = pdf.splitTextToSize(value || "-", maxTextWidth);
+                    pdf.setFont("helvetica", "bold");
+                    pdf.text(`${label}:`, margin + 10, y);
+                    pdf.setFont("helvetica", "normal");
+                    pdf.text(wrapped, valueStart, y);
+                    y += wrapped.length * lineHeight + 3;
+                    if (y > pageHeight - margin) {
+                        pdf.addPage();
+                        y = margin;
+                    }
+                }
+                y += 14; // space before next section
+            };
+
+            // --- CONTENT SECTIONS ---
+            addSection("Basic Information", {
+                "Birthdate": personal.pi_dbirth,
+                "Address": personal.pi_add,
+                "Contact No": personal.pi_tel,
+                "Civil Status": personal.pi_cstatus,
             });
+
+            addSection("Job Information", {
+                "Department": job.ji_dept,
+                "Detachment": job.ji_sec,
+                "Position": job.ji_pos,
+                "Date Hired": job.ji_dateHired,
+            });
+
+            addSection("Educational Background", {
+                "School": educ.educ_school,
+                "Degree": educ.educ_type,
+            });
+
+            addSection("Email Address", {
+                "Email": email.email_add,
+            });
+
+            addSection("Emergency Contact", {
+                "Contact Name": emergency.em_name,
+                "Contact Number": emergency.em_telno,
+            });
+
+            addSection("Previous Employment", {
+                "Company": pemp.pe_comp,
+                "Position": pemp.pe_pos,
+                "Reason for Leaving": pemp.pe_rison,
+            });
+
+            addSection("Account & Government Numbers", {
+                "Bank Account": compensation.comp_bank,
+                "TIN": personal.pi_tin,
+                "SSS": personal.pi_sssno,
+                "Pagibig": personal.pi_pagibig,
+                "PhilHealth": personal.pi_philhealth,
+            });
+
+            // --- FOOTER ---
+            pdf.setFontSize(9);
+            pdf.setTextColor(130);
+            pdf.text(
+                `Generated on ${new Date().toLocaleDateString()} — HR Information System`,
+                margin,
+                pageHeight - 30
+            );
+
+            // --- SAVE FILE ---
+            pdf.save(`${fullName.replace(/\s+/g, "_")}_${new Date().toISOString().split("T")[0]}.pdf`);
         });
     }
 
