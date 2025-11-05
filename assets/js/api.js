@@ -135,11 +135,15 @@ export async function uploadDocument(department, file, db, category) {
 }
 
 // Delete document
-export async function deleteDocument(department, filename, db) {
+export async function deleteDocument(department, filename, db, category) {
     const userInfo = JSON.parse(localStorage.getItem("userInfo")) || {};
 
-    const response = await fetch(
-        `${API_BASE_URL}/uploads/${department}/${filename}?db=${db}`,
+    const url = `${API_BASE_URL}/uploads/${encodeURIComponent(department)}/${encodeURIComponent(filename)}` 
+        + (category 
+            ? `?category=${encodeURIComponent(category)}&db=${encodeURIComponent(db)}`
+            : `?db=${encodeURIComponent(db)}`);
+
+    const response = await fetch(url,
         {
             method: "DELETE",
             headers: {

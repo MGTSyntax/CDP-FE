@@ -153,7 +153,7 @@ async function loadDocuments() {
 function renderDocuments() {
     documentList.innerHTML = "";
     if (!documents || documents.length === 0) {
-        documentList.innerHTML = `<p class="no-docs">No documents available for ${activeDepartment}</p>`;
+        documentList.innerHTML = `<p class="no-docs">No documents available for ${activeDepartment} - ${activeCategory}</p>`;
         return;
     }
 
@@ -193,7 +193,7 @@ function renderDocuments() {
                 if (!confirm(`Are you sure you want to delete ${filename}?`)) return;
 
                 try {
-                    await deleteDocument(activeDepartment, filename, selectedDb);
+                    await deleteDocument(activeDepartment, filename, selectedDb, activeCategory);
                     div.remove();
                     documents = documents.filter((d) => d.filename !== filename);
                     renderDocuments();

@@ -1,0 +1,40 @@
+```
+└── 📁CDP-UI
+    └── 📁assets
+        └── 📁css
+            ├── dashboard.css
+            ├── document-admin.css
+            ├── documents.css
+            ├── liststyles.css
+            ├── login.css
+            ├── profile.css
+            ├── styles.css
+        └── 📁images
+            ├── mibBanner.png
+            ├── mibLogo.png
+            ├── profile-avatar.jpg
+        └── 📁js
+            └── 📁statics
+                ├── chatbot.js
+                ├── footer.js
+                ├── header.js
+                ├── navbar.js
+            ├── api.js
+            ├── auth.js
+            ├── dashboard.js
+            ├── documents-admin.js
+            ├── documents-view.js
+            ├── employee.js
+            ├── profile.js
+            ├── script.js
+    └── 📁pages
+        └── 📁partials
+            ├── header.html
+        ├── admin-documents.html
+        ├── dashboard.html
+        ├── detachments.html
+        ├── documents.html
+        ├── employees.html
+        ├── login.html
+        ├── profile.html
+```

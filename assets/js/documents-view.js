@@ -119,7 +119,7 @@ async function loadDocuments() {
 
         documentList.innerHTML = "";
         if (!documents || documents.length === 0) {
-            documentList.innerHTML = `<p class="no-docs">No documents available for ${activeDepartment}</p>`;
+            documentList.innerHTML = `<p class="no-docs">No documents available for ${activeDepartment} - ${activeCategory}</p>`;
             return;
         }
 
@@ -134,7 +134,7 @@ async function loadDocuments() {
                 </div>
                 <div class="actions">
                     <button class="preview-btn" aria-label="Preview Document">
-                        View
+                        <i class="fa-solid fa-eye"></i>
                     </button>
                 </div>
             </div>
