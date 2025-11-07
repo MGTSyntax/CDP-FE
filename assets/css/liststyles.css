@@ -294,7 +294,7 @@ td:nth-child(3) {
 }
 
 .section-content strong {
-    color: #fff;
+    color: #333;
 }
 
 .employee-section.collapsed .section-content {
@@ -336,6 +336,11 @@ td:nth-child(3) {
     .employee-section h3 {
         color: #5ea0ff;
     }
+
+    .section-content strong {
+        color: #fff;
+    }
+
 }
 
 @media print {
