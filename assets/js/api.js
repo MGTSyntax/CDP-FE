@@ -166,14 +166,34 @@ export async function deleteDocument(department, filename, db, category) {
 
 // Get all department Folders
 export async function getDepartmentFolderList(db) {
-    const res = await fetch(`${API_BASE_URL}/department-folders?db=${db}`);
+    const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+
+    if (!userInfo || !userInfo.userLevel) {
+        throw new Error("User info is missing");
+    }
+
+    const res = await fetch(
+        `${API_BASE_URL}/department-folders?db=${db}&userLevel=${userInfo.userLevel}`
+    );
+
     if (!res.ok) throw new Error("Failed to fetch departments");
+
     return await res.json();
 }
 
 // Get categories for a department Folder
 export async function getCategories(deptId, db) {
-    const res = await fetch(`${API_BASE_URL}/categories/${deptId}?db=${db}`);
+    const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+
+    if (!userInfo || !userInfo.userLevel) {
+        throw new Error("User info is missing");
+    }
+
+    const res = await fetch(
+        `${API_BASE_URL}/categories/${deptId}?db=${db}&userLevel=${userInfo.userLevel}`
+    );
+
     if (!res.ok) throw new Error("Failed to fetch categories");
+
     return await res.json();
 }

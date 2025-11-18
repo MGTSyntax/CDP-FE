@@ -3,29 +3,49 @@ import { getEmpProfile } from "./api.js";
 
 document.addEventListener('DOMContentLoaded', () => {
     const track = document.querySelector('.carousel-track');
-  const prevBtn = document.querySelector('.carousel-btn.prev');
-  const nextBtn = document.querySelector('.carousel-btn.next');
+    const prevBtn = document.querySelector('.carousel-btn.prev');
+    const nextBtn = document.querySelector('.carousel-btn.next');
 
     // Get top profile record
     loadProfile();
 
     if (track) {
-        const scrollAmount = 250;
+        const cards = Array.from(track.children);
+        const cardWidth = cards[0].offsetWidth + 24;
+        let autoScroll;
+
+        // Clone cards
+        cards.forEach(card => {
+            const clone = card.cloneNode(true);
+            track.appendChild(clone);
+        });
+
+        function startAutoScroll() {
+            autoScroll = setInterval(() => {
+                track.scrollLeft += 2;
+
+                if (track.scrollLeft >= track.scrollWidth / 2) {
+                    track.scrollLeft = 0;
+                }
+            }, 40);
+        }
+
+        function stopAutoScroll() {
+            clearInterval(autoScroll);
+        }
 
         nextBtn.addEventListener('click', () => {
-            track.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+            track.scrollBy({ left: cardWidth, behavior: 'smooth' });
         });
 
         prevBtn.addEventListener('click', () => {
-            track.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+            track.scrollBy({ left: -cardWidth, behavior: 'smooth' });
         });
 
-        setInterval(() => {
-            track.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-            if (track.scrollLeft + track.clientWidth >= track.scrollWidth) {
-                track.scrollTo({ left: 0, behavior: 'smooth' });
-            }
-        }, 5000);
+        track.addEventListener('mouseenter', stopAutoScroll);
+        track.addEventListener('mouseleave', stopAutoScroll);
+        
+        startAutoScroll();
     }
 });
 

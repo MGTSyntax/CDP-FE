@@ -152,4 +152,4 @@ async function loadDocuments() {
 
 loadDepartmentFolders();
 documentList.innerHTML = `<p class="no-docs">Select a department to view documents.</p>`;
-uploadBox.style.display = "none";
+// uploadBox.style.display = "none";
