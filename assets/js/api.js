@@ -27,8 +27,9 @@ export async function loginUser(database, username, password) {
         if (!res.ok) throw new Error(data.message || 'Login failed');
         return data;
     } catch (error) {
-        console.error('Error during login:', error);
-        throw error;
+        console.warn("Login failed:", error.message);
+        return { success: false, message: error.message };
+
     }
 }
 
@@ -39,7 +40,7 @@ export async function getUserInfo(db, empNo) {
         if (!response.ok) throw new Error(data.error || 'Failed to fetch user info');
         return data;
     } catch (error) {
-        console.error('Error fetching user info:', error);
+        alert("Unable to load user information. Please contact admin.");
         return null;
     }
 }

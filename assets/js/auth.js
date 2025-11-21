@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }
 
             } else {
-                alert('Invalid credentials. Please try again.');
+                return alert(result.message);
             }
         } catch (error) {
             alert('Login failed: ' + error.message);

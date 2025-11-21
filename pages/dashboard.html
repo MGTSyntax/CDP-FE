@@ -25,8 +25,8 @@
     <main class="dashboard-content">
         <div class="content-wrapper dashboard-container">
 
-            <!-- Greeting & Profile -->
-            <section class="top-profile">
+            <!-- Hero / Profile Section -->
+            <section class="top-profile premium-profile">
                 <div class="top-profile-design">
                     <div class="greeting">
                         <h2>Magandang araw Ka-MIB!</h2>
@@ -34,6 +34,7 @@
                     </div>
                     <img src="/assets/images/mibBanner.png" alt="Banner" class="banner-img">
                 </div>
+
                 <div class="top-profile-wrapper">
                     <img src="/assets/images/profile-avatar.jpg" alt="Avatar" class="profile-avatar">
                     <div class="profile-texts">
@@ -63,31 +64,104 @@
                 </div>
             </section>
 
-            <!-- Companies Show off -->
+            <section class="company-highlights">
+                <h3>Company Highlights</h3>
+                <div class="highlights-grid">
+                    <div class="highlight-card">
+                        <h4>Active Clients</h4>
+                        <p>100</p>
+                    </div>
+                    <div class="highlight-card">
+                        <h4>Client Satisfaction</h4>
+                        <p>98%</p>
+                    </div>
+                    <div class="highlight-card">
+                        <h4>Awards</h4>
+                        <p>5</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Group Companies Carousel -->
             <section class="group-companies">
                 <h3>Our Group of Companies</h3>
                 <div class="carousel-container">
                     <button class="carousel-btn prev"><i class="fa-solid fa-chevron-left"></i></button>
                     <div class="carousel-track">
                         <div class="company-card">
-                            <img src="/assets/images/mib1.png" alt="MIB 1" title="Men In Blue Security Services, Inc.">
-                            <p>Men In Blue Security Services, Inc.</p>
+                            <img src="/assets/images/mib1.png" alt="MIB 1" 
+                                title="Men In Blue Security Services, Inc.">
                         </div>
                         <div class="company-card">
-                            <img src="/assets/images/mib2.jpg" alt="MIB 2" title="Malaking Ibong Bughaw Security Services, Inc.">
-                            <p>Malaking Ibong Bughaw Security Services, Inc.</p>
+                            <img src="/assets/images/mib2.jpg" alt="MIB 2"
+                                title="Malaking Ibong Bughaw Security Services, Inc.">
                         </div>
                         <div class="company-card">
-                            <img src="/assets/images/mib3.jpg" alt="MIB 3" title="Maisog Ining Bantay Security Services, Inc.">
-                            <p>Maisog Ining Bantay Security Services, Inc.</p>
+                            <img src="/assets/images/mib3.jpg" alt="MIB 3"
+                                title="Maisog Ining Bantay Security Services, Inc.">
                         </div>
                         <div class="company-card">
                             <img src="/assets/images/mib4.jpg" alt="MIB 4"
                                 title="Matikas Itong Bantay Protective And Detective Agency, Inc.">
-                            <p>Matikas Itong Bantay Protective And Detective Agency, Inc.</p>
                         </div>
                     </div>
                     <button class="carousel-btn next"><i class="fa-solid fa-chevron-right"></i></button>
+                </div>
+            </section>
+
+            <section class="mvv-section">
+                <h3>Our Mission, Vision & Values</h3>
+                <div class="mvv-grid">
+                    <div class="mvv-card">
+                        <h4>MISSION</h4>
+                        <ul>
+                            <li>We will provide consistent, high-quality service by constantly challenging our people to
+                                improve the safety, security and satisfaction of our Clients.</li>
+                            <li>We will create a work environment for our associates that will encourage and motivate
+                                them to demonstrate exemplary behaviour and performance at work.</li>
+                            <li>We will build a corporate image within the security industry by exhibiting the highest
+                                standards of integrity and professionalism.</li>
+                            <li>We will earn for our shareholders a better-than-average return on their investment.</li>
+                        </ul>
+                    </div>
+
+                    <div class="mvv-card">
+                        <h4>VISION</h4>
+                        <p>
+                            Men In Blue Security Services, Inc. ("MIB") and its associated companies will be premier
+                            providers of
+                            security
+                            and protective services to prominent and reputable Clients, supplying the tallest, smartest,
+                            best-looking and
+                            most disciplined Public Safety Officers and Protective Agents in the industry.
+                        </p>
+                        <p>
+                            We will recruit and develop security professionals who are of such high quality that they
+                            can be
+                            "exported" to
+                            nearby Asian markets, thus creating for MIB the indisputable reputation of industry
+                            benchmark in the
+                            ASEAN
+                            Region.
+                        </p>
+                    </div>
+
+                    <div class="mvv-card">
+                        <h4>VALUES</h4>
+                        <ul>
+                            <p>To accomplish this vision, MIBSSI is guided by the following core values:</p>
+                            <li>Godliness to govern our employees' thoughts, words and deeds at all times;</li>
+                            <li>Discipline, both physical and intellectual, to produce the best performance from our
+                                people;</li>
+                            <li>Integrity in the way our officers and employees speak, behave and work;</li>
+                            <li>Respect for the individuality and basic freedoms of our people;</li>
+                            <li>Equality in basic rights and opportunities for all employees;</li>
+                            <li>Creativity to be nurtured at every level of the organization;</li>
+                            <li>Teamwork as the touchstone of the Company's collective success;</li>
+                            <li>Excellence in every effort and output produced; and</li>
+                            <li>Dependability and reliability to be admired by Clients and the general public.</li>
+                        </ul>
+                    </div>
                 </div>
             </section>
         </div>
@@ -95,7 +169,6 @@
 
     <footer id="footer"></footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script type="module" src="/assets/js/statics/header.js"></script>
     <script type="module" src="/assets/js/dashboard.js"></script>
     <script type="module" src="/assets/js/statics/footer.js"></script>

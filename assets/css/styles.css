@@ -16,7 +16,14 @@ html, body {
     padding: 0;
     font-family: 'Inter', Arial, sans-serif;
     color: #333;
-    background-color: #dff4fd;
+    /* background: linear-gradient(135deg, #eef2f7, #f5f7fa); */
+    background-image: repeating-linear-gradient(
+        45deg,
+        rgba(0,123,255,0.05) 0,
+        rgba(0,123,255,0.05) 1px,
+        transparent 1px,
+        transparent 20px
+    );
     display: flex;
     flex-direction: column;
 }
@@ -313,6 +320,20 @@ main {
 .drawer-links a:hover,
 .drawer-links button:hover {
     color: #007bff;
+}
+
+.card,
+.highlight-card,
+.company-card,
+.mvv-card {
+    box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+    border-radius: 14px !important;
+}
+
+.card:hover,
+.highlight-card:hover,
+.company-card:hover {
+    transform: translateY(-6px);
 }
 
 /* ==============================
