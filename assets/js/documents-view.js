@@ -80,8 +80,8 @@ async function loadDepartmentFolders() {
                     const categories = await getCategories(deptId, selectedDb);
                     categoryList.innerHTML = categories.map(cat =>
                         `<li>
-                                    <span class="category-lbl" data-cat="${cat.catname}">${cat.catname}</span>
-                                </li>`
+                            <span class="category-lbl" data-cat="${cat.catname}">${cat.catname}</span>
+                        </li>`
                     ).join('');
                     categoryList.dataset.loaded = "true";
 
